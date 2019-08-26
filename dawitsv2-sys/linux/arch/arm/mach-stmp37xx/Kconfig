@@ -1,0 +1,126 @@
+if ARCH_STMP37XX
+
+menu "SigmaTel STMP37XX Implementations"
+
+choice
+	prompt "Select target board"
+	default MACH_ARMA37
+
+config MACH_ARMA37
+	bool "STMP37XX reference board"
+
+config MACH_MENDEL
+	bool "???? project Mendel ????"
+	select CPU_STMP3700
+
+endchoice
+
+choice
+	prompt "Select hardware revision"
+	depends on MACH_ARMA37
+
+	config ARMA37_REV_01
+	bool "REV_0.1 (2008.02.5)"
+
+endchoice
+
+choice
+	prompt "Processor Variants"
+	default CPU_STMP3700
+
+config CPU_STMP3700
+	bool "STMP3700"
+	select FIQ
+
+endchoice
+
+
+if MACH_MENDEL
+choice
+	prompt "Select revision of target board"
+	default MACH_MENDEL_REV00
+
+config MACH_MENDEL_REV00
+	bool "REV00 ? FIXME"
+
+endchoice
+endif
+
+config STMP3XXX_CSC
+	bool "CSC driver"
+	default y
+	help
+	  Say Y her if you want to compile in CSC support
+
+config STMP3XXX_OCRAM
+	bool "OCRAM mmap driver for sigmatel audio codec"
+	default y
+	help
+	  Say Y her if you want to compile in OCRAM mmap driver for sigmatel audio codec"
+
+config STMP3XXX_DIGCTL
+	bool "DIGCTL mmap driver for stmp37xx"
+	default y
+
+
+if DUMMY_TMP
+
+config STMP36XX_DCDC_MODE0
+	bool "Initialise DCDC mode 0 at startup"
+	default y
+	help
+	  Say Y here if you want the CPU to enable DCDC mode 0 at startup.
+	  This will set 3.3v VDDIO (buck/boost mode) and 1.76v VDDD. If you
+	  don't do this, the DCDC settings are left unchanged. You will need
+	  this option enabled if you are powering a 1" HDD from the CPU.
+
+config STMP3XXX_DAC
+	bool "AUDIOOUT DAC driver"
+	default y
+	help
+	  Say Y here if you want to compile in AUDIOOUT DAC driver support
+	  
+config STMP3XXX_ADC
+	bool "AUDIOIN ADC driver"
+	default y
+	help
+	  Say Y here if you want to compile in AUDIOIN ADC driver support	  
+
+config STMP3XXX_LRADC
+	bool "LRADC driver"
+	default y
+	help
+	  Say Y here if you want to compile in LRADC driver support	  
+
+config STMP3XXX_BUTTONS
+	bool "LRADC button driver"
+	select STMP3XXX_LRADC
+	default y
+	help
+	  Say Y here if you want to compile in LRADC button driver support
+
+config STMP3XXX_GPIO
+	bool "GPIO driver"
+	default y
+	help
+	  Say Y here if you want to compile in GPIO driver support	  
+
+config STMP3XXX_TOUCHSCREEN
+	bool "Touchscreen driver"
+	select STMP3XXX_LRADC
+	default y
+	help
+	  Say Y here if you want to compile in touchscreen driver support
+
+config STMP3XXX_BATTERY
+	bool "Battery driver"
+	select STMP3XXX_LRADC
+	default y
+	help
+	  Say Y her if you want to compile in battery support
+
+endif
+
+endmenu
+
+endif

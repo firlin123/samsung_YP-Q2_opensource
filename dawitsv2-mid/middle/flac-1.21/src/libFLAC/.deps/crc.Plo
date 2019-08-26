@@ -1,0 +1,29 @@
+crc.lo .libs/crc.o: crc.c ../../config.h include/private/crc.h \
+  ../../include/FLAC/ordinals.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/inttypes.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/features.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/sys/cdefs.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/gnu/stubs.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/stdint.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/bits/wchar.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/bits/wordsize.h
+
+../../config.h:
+
+include/private/crc.h:
+
+../../include/FLAC/ordinals.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/inttypes.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/features.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/sys/cdefs.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/gnu/stubs.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/stdint.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/bits/wchar.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/bits/wordsize.h:

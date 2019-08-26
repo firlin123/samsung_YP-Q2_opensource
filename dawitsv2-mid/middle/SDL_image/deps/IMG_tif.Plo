@@ -1,0 +1,114 @@
+IMG_tif.lo IMG_tif.o: IMG_tif.c \
+  /usr/local/z-proj-softfloat/bin/../lib/gcc/arm-linux-uclibc/3.4.3/../../../../arm-linux-uclibc/sys-include/stdio.h \
+  /usr/local/z-proj-softfloat/bin/../lib/gcc/arm-linux-uclibc/3.4.3/../../../../arm-linux-uclibc/sys-include/features.h \
+  /usr/local/z-proj-softfloat/bin/../lib/gcc/arm-linux-uclibc/3.4.3/../../../../arm-linux-uclibc/sys-include/bits/uClibc_config.h \
+  /usr/local/z-proj-softfloat/bin/../lib/gcc/arm-linux-uclibc/3.4.3/../../../../arm-linux-uclibc/sys-include/sys/cdefs.h \
+  /usr/local/z-proj-softfloat/bin/../lib/gcc/arm-linux-uclibc/3.4.3/include/stddef.h \
+  /usr/local/z-proj-softfloat/bin/../lib/gcc/arm-linux-uclibc/3.4.3/../../../../arm-linux-uclibc/sys-include/bits/types.h \
+  /usr/local/z-proj-softfloat/bin/../lib/gcc/arm-linux-uclibc/3.4.3/../../../../arm-linux-uclibc/sys-include/bits/kernel_types.h \
+  /usr/local/z-proj-softfloat/bin/../lib/gcc/arm-linux-uclibc/3.4.3/../../../../arm-linux-uclibc/sys-include/bits/pthreadtypes.h \
+  /usr/local/z-proj-softfloat/bin/../lib/gcc/arm-linux-uclibc/3.4.3/../../../../arm-linux-uclibc/sys-include/bits/sched.h \
+  /usr/local/z-proj-softfloat/bin/../lib/gcc/arm-linux-uclibc/3.4.3/../../../../arm-linux-uclibc/sys-include/bits/uClibc_stdio.h \
+  /usr/local/z-proj-softfloat/bin/../lib/gcc/arm-linux-uclibc/3.4.3/../../../../arm-linux-uclibc/sys-include/wchar.h \
+  /usr/local/z-proj-softfloat/bin/../lib/gcc/arm-linux-uclibc/3.4.3/../../../../arm-linux-uclibc/sys-include/bits/wchar.h \
+  /usr/local/z-proj-softfloat/bin/../lib/gcc/arm-linux-uclibc/3.4.3/include/stdarg.h \
+  /usr/local/z-proj-softfloat/bin/../lib/gcc/arm-linux-uclibc/3.4.3/../../../../arm-linux-uclibc/sys-include/bits/stdio_lim.h \
+  SDL_image.h /usr/include/SDL/SDL.h /usr/include/SDL/SDL_main.h \
+  /usr/include/SDL/SDL_types.h /usr/include/SDL/SDL_getenv.h \
+  /usr/include/SDL/SDL_error.h /usr/include/SDL/begin_code.h \
+  /usr/include/SDL/close_code.h /usr/include/SDL/SDL_rwops.h \
+  /usr/include/SDL/SDL_timer.h /usr/include/SDL/SDL_audio.h \
+  /usr/include/SDL/SDL_byteorder.h \
+  /usr/local/z-proj-softfloat/bin/../lib/gcc/arm-linux-uclibc/3.4.3/../../../../arm-linux-uclibc/sys-include/endian.h \
+  /usr/local/z-proj-softfloat/bin/../lib/gcc/arm-linux-uclibc/3.4.3/../../../../arm-linux-uclibc/sys-include/bits/endian.h \
+  /usr/include/SDL/SDL_cdrom.h /usr/include/SDL/SDL_joystick.h \
+  /usr/include/SDL/SDL_events.h /usr/include/SDL/SDL_active.h \
+  /usr/include/SDL/SDL_keyboard.h /usr/include/SDL/SDL_keysym.h \
+  /usr/include/SDL/SDL_mouse.h /usr/include/SDL/SDL_video.h \
+  /usr/include/SDL/SDL_mutex.h /usr/include/SDL/SDL_quit.h \
+  /usr/include/SDL/SDL_version.h /usr/include/SDL/SDL_version.h \
+  /usr/include/SDL/begin_code.h /usr/include/SDL/close_code.h
+
+/usr/local/z-proj-softfloat/bin/../lib/gcc/arm-linux-uclibc/3.4.3/../../../../arm-linux-uclibc/sys-include/stdio.h:
+
+/usr/local/z-proj-softfloat/bin/../lib/gcc/arm-linux-uclibc/3.4.3/../../../../arm-linux-uclibc/sys-include/features.h:
+
+/usr/local/z-proj-softfloat/bin/../lib/gcc/arm-linux-uclibc/3.4.3/../../../../arm-linux-uclibc/sys-include/bits/uClibc_config.h:
+
+/usr/local/z-proj-softfloat/bin/../lib/gcc/arm-linux-uclibc/3.4.3/../../../../arm-linux-uclibc/sys-include/sys/cdefs.h:
+
+/usr/local/z-proj-softfloat/bin/../lib/gcc/arm-linux-uclibc/3.4.3/include/stddef.h:
+
+/usr/local/z-proj-softfloat/bin/../lib/gcc/arm-linux-uclibc/3.4.3/../../../../arm-linux-uclibc/sys-include/bits/types.h:
+
+/usr/local/z-proj-softfloat/bin/../lib/gcc/arm-linux-uclibc/3.4.3/../../../../arm-linux-uclibc/sys-include/bits/kernel_types.h:
+
+/usr/local/z-proj-softfloat/bin/../lib/gcc/arm-linux-uclibc/3.4.3/../../../../arm-linux-uclibc/sys-include/bits/pthreadtypes.h:
+
+/usr/local/z-proj-softfloat/bin/../lib/gcc/arm-linux-uclibc/3.4.3/../../../../arm-linux-uclibc/sys-include/bits/sched.h:
+
+/usr/local/z-proj-softfloat/bin/../lib/gcc/arm-linux-uclibc/3.4.3/../../../../arm-linux-uclibc/sys-include/bits/uClibc_stdio.h:
+
+/usr/local/z-proj-softfloat/bin/../lib/gcc/arm-linux-uclibc/3.4.3/../../../../arm-linux-uclibc/sys-include/wchar.h:
+
+/usr/local/z-proj-softfloat/bin/../lib/gcc/arm-linux-uclibc/3.4.3/../../../../arm-linux-uclibc/sys-include/bits/wchar.h:
+
+/usr/local/z-proj-softfloat/bin/../lib/gcc/arm-linux-uclibc/3.4.3/include/stdarg.h:
+
+/usr/local/z-proj-softfloat/bin/../lib/gcc/arm-linux-uclibc/3.4.3/../../../../arm-linux-uclibc/sys-include/bits/stdio_lim.h:
+
+SDL_image.h:
+
+/usr/include/SDL/SDL.h:
+
+/usr/include/SDL/SDL_main.h:
+
+/usr/include/SDL/SDL_types.h:
+
+/usr/include/SDL/SDL_getenv.h:
+
+/usr/include/SDL/SDL_error.h:
+
+/usr/include/SDL/begin_code.h:
+
+/usr/include/SDL/close_code.h:
+
+/usr/include/SDL/SDL_rwops.h:
+
+/usr/include/SDL/SDL_timer.h:
+
+/usr/include/SDL/SDL_audio.h:
+
+/usr/include/SDL/SDL_byteorder.h:
+
+/usr/local/z-proj-softfloat/bin/../lib/gcc/arm-linux-uclibc/3.4.3/../../../../arm-linux-uclibc/sys-include/endian.h:
+
+/usr/local/z-proj-softfloat/bin/../lib/gcc/arm-linux-uclibc/3.4.3/../../../../arm-linux-uclibc/sys-include/bits/endian.h:
+
+/usr/include/SDL/SDL_cdrom.h:
+
+/usr/include/SDL/SDL_joystick.h:
+
+/usr/include/SDL/SDL_events.h:
+
+/usr/include/SDL/SDL_active.h:
+
+/usr/include/SDL/SDL_keyboard.h:
+
+/usr/include/SDL/SDL_keysym.h:
+
+/usr/include/SDL/SDL_mouse.h:
+
+/usr/include/SDL/SDL_video.h:
+
+/usr/include/SDL/SDL_mutex.h:
+
+/usr/include/SDL/SDL_quit.h:
+
+/usr/include/SDL/SDL_version.h:
+
+/usr/include/SDL/SDL_version.h:
+
+/usr/include/SDL/begin_code.h:
+
+/usr/include/SDL/close_code.h:

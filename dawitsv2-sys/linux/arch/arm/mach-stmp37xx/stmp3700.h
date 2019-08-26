@@ -1,0 +1,6 @@
+#ifndef _ARCH_ARM_MACH_STMP37XX_STMP3700_H_
+#define _ARCH_ARM_MACH_STMP37XX_STMP3700_H_
+
+extern void stmp3700_init(void);
+
+#endif /* _ARCH_ARM_MACH_STMP37XX_STMP3700_H_ */

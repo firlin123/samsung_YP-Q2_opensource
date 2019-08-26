@@ -1,0 +1,155 @@
+bitwriter.lo .libs/bitwriter.o: bitwriter.c ../../config.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/stdlib.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/features.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/sys/cdefs.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/gnu/stubs.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/include/stddef.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/sys/types.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/bits/types.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/bits/wordsize.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/bits/typesizes.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/time.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/endian.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/bits/endian.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/sys/select.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/bits/select.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/bits/sigset.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/bits/time.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/sys/sysmacros.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/bits/pthreadtypes.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/bits/sched.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/alloca.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/string.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/bits/string.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/bits/string2.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/netinet/in.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/stdint.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/bits/wchar.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/sys/socket.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/sys/uio.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/bits/uio.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/bits/socket.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/include/limits.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/bits/sockaddr.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/asm/socket.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/asm/sockios.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/bits/in.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/bits/byteswap.h \
+  include/private/bitwriter.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/stdio.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/libio.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/_G_config.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/wchar.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/gconv.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/include/stdarg.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/bits/stdio_lim.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/bits/sys_errlist.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/bits/stdio.h \
+  ../../include/FLAC/ordinals.h \
+  /opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/inttypes.h \
+  include/private/crc.h ../../include/FLAC/assert.h \
+  ../../include/share/alloc.h
+
+../../config.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/stdlib.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/features.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/sys/cdefs.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/gnu/stubs.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/include/stddef.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/sys/types.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/bits/types.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/bits/wordsize.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/bits/typesizes.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/time.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/endian.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/bits/endian.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/sys/select.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/bits/select.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/bits/sigset.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/bits/time.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/sys/sysmacros.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/bits/pthreadtypes.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/bits/sched.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/alloca.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/string.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/bits/string.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/bits/string2.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/netinet/in.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/stdint.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/bits/wchar.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/sys/socket.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/sys/uio.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/bits/uio.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/bits/socket.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/include/limits.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/bits/sockaddr.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/asm/socket.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/asm/sockios.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/bits/in.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/bits/byteswap.h:
+
+include/private/bitwriter.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/stdio.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/libio.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/_G_config.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/wchar.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/gconv.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/include/stdarg.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/bits/stdio_lim.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/bits/sys_errlist.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/bits/stdio.h:
+
+../../include/FLAC/ordinals.h:
+
+/opt/empeg/lib/gcc/armv5-empeg-linux-gnueabi/4.0.2/../../../../armv5-empeg-linux-gnueabi/include/inttypes.h:
+
+include/private/crc.h:
+
+../../include/FLAC/assert.h:
+
+../../include/share/alloc.h:

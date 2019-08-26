@@ -1,0 +1,39 @@
+#
+# RFS configuration
+#
+
+
+tristate 'RFS filesystem support' CONFIG_RFS_FS
+dep_mbool '  Disable FAT32 and long file name ' CONFIG_NO_FAT32 $CONFIG_RFS_FS 
+
+dep_tristate	'4K FTL support' CONFIG_FTL_4K  $CONFIG_RFS_FS
+dep_tristate	'4K FTL(V1) support' CONFIG_FTL_4K_V1  $CONFIG_RFS_FS
+dep_tristate	'2K FTL support' CONFIG_FTL_2K  $CONFIG_RFS_FS
+dep_tristate	'2K FTL(V1) support' CONFIG_FTL_2K_V1  $CONFIG_RFS_FS
+dep_tristate	'512b FTL support' CONFIG_FTL_512B  $CONFIG_RFS_FS
+
+if [ "$CONFIG_NO_FAT32" = "y" ]; then
+define_bool CONFIG_RFS_FAT32 n    
+else
+define_bool CONFIG_RFS_FAT32 y
+fi
+
+if [ "$CONFIG_RFS_FAT32" = "y" ]; then
+dep_mbool '  Use NLS for RFS '         CONFIG_RFS_NLS   
+else 
+define_bool CONFIG_RFS_NLS
+fi
+
+if [ "$CONFIG_RFS_FAT32" = "y" -a "$CONFIG_RFS_NLS" = "y" ]; then
+	choice 'Select Default Language' \
+		"Korean	CONFIG_RFS_NLS_KR	\
+		 Japanese CONFIG_RFS_NLS_JP" Korean	
+fi
+
+dep_mbool '  Use Free Cluster Management' CONFIG_FREE_CLUSTER_MANAGEMENT $CONFIG_RFS_FS 
+
+define_bool CONFIG_RFS_PAGE_CACHE y
+define_bool USE_CHECK_POINT n
+define_bool USE_EXTERNAL_FILE n
+
+source fs/rfs/lib_src/ftl/Config.in

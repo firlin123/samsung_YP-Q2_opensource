@@ -1,0 +1,7 @@
+menu "Unified Flash Device support"
+
+config UFD
+	bool "UFD Support for Mendel Platform"
+	depends on MACH_ARMA37
+
+endmenu

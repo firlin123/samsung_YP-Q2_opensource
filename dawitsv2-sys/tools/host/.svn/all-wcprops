@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/linux/!svn/ver/1014/trunk/src/dawitsv2-sys/tools/host
+END
+elftosb2
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/linux/!svn/ver/1014/trunk/src/dawitsv2-sys/tools/host/elftosb2
+END
+unsquashfs
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/linux/!svn/ver/1014/trunk/src/dawitsv2-sys/tools/host/unsquashfs
+END
+mkcramfs
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/linux/!svn/ver/1014/trunk/src/dawitsv2-sys/tools/host/mkcramfs
+END
+gccdep
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/linux/!svn/ver/1014/trunk/src/dawitsv2-sys/tools/host/gccdep
+END
+mksquashfs
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/linux/!svn/ver/1014/trunk/src/dawitsv2-sys/tools/host/mksquashfs
+END

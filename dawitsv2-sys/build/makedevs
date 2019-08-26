@@ -1,0 +1,135 @@
+#!/bin/bash
+
+# Run this script from the /dev directory to generate all the device nodes.
+
+# Standard linux block devices
+#mknod hda b 3 0
+#mknod hda1 b 3 1
+#mknod hda2 b 3 2
+#mknod hda3 b 3 3
+#mknod hda4 b 3 4
+#mknod hda5 b 3 5
+mknod loop0 b 7 0
+#mknod loop1 b 7 1
+#mknod loop2 b 7 2
+#mknod loop3 b 7 3
+#mknod loop4 b 7 4
+#mknod loop5 b 7 5
+#mknod loop6 b 7 6
+#mknod loop7 b 7 7
+mknod ram0 b 1 0
+
+# Standard linux character devices
+mknod console c 5 1
+mknod fb0 c 29 0
+mknod fb1 c 29 1
+mknod full c 1 7
+mknod kmem c 1 2
+mknod mem c 1 1
+mknod null c 1 3
+mknod random c 1 8
+mknod tty c 5 0
+mknod tty0 c 4 0
+mknod tty1 c 4 1
+mknod tty2 c 4 2
+mknod ttygserial c 127 0
+mknod urandom c 1 9
+mknod zero c 1 5
+
+# OSS
+mknod mixer c 14 0
+#mknod sequencer c 14 1
+#mknod midi00 c 14 2
+mknod dsp c 14 3
+#mknod audio c 14 4
+#mknod sndstat c 14 6
+
+# i2c
+#mknod i2c c 89 0
+
+# FM Tuner
+mknod fmtuner c 240 1
+mknod led c 241 1
+
+# battery
+mknod battery_dev c 253 1
+
+# PPP
+#mknod ppp c 108 0
+
+# USB serial
+#mknod ttygs0 c 127 0
+
+# USB gadget
+mkdir gadget
+
+# ARM specific
+mknod ttyAM0 c 204 16
+mknod ttyAM1 c 204 17
+
+# Platform specific
+#mknod dac c 240 0
+#mknod adc c 243 0
+#mknod button c 241 0
+mknod ttySA c 242 0
+mknod gpio c 245 0
+#mknod mmcblk0 b 179 0
+#mknod mmcblk0p1 b 179 1
+#mknod mmcblk0p2 b 179 2
+#mknod mmcblk0p3 b 179 3
+#mknod touchscreen c 247 0
+mknod battery c 248 0
+mknod rtc0 c 254 0
+mknod csc c 249 0
+mknod ocram c 250 0
+
+# ufd
+mknod ufd0 b 137 0
+mknod ufd0p1 b 137 1
+mknod ufd0p2 b 137 2
+mknod ufd0p3 b 137 3
+mknod ufd0p4 b 137 4
+mknod ufd0p5 b 137 5
+
+mknod ufdrawa  b 137 240
+mknod ufdrawb  b 137 241
+mknod ufdrawc  b 137 242
+mknod ufdrawd  b 137 243
+
+mknod ufda  b 138 0
+mknod ufda1 b 138 1
+mknod ufda2 b 138 2
+
+#mknod ufdb  b 138 16
+#mknod ufdb1 b 138 17
+#mknod ufdb2 b 138 18
+
+mkdir misc
+ln -s /dev/ocram misc/sram
+#mknod misc/gpio c 10 64
+mknod misc/digctl c 10 66
+mknod misc/usb_event c 10 67
+mknod misc/pm c 10 69
+mknod misc/battery_event c 10 68
+mknod misc/ep_event c 10 71
+mknod misc/nandsb c 10 73
+mknod misc/comm_event c 10 70
+
+
+# Standard symlinks
+ln -s /proc/self/fd fd
+ln -s fd/0 stdin
+ln -s fd/1 stdout
+ln -s fd/2 stderr
+ln -s fb0 fb
+ln -s /proc/kcore core
+ln -s ram0 ramdisk
+
+# Platform specific symlinks
+#ln -s button user_input
+#ln -s dac dsp
+ln -s rtc0 rtc
+
+# Filesystem mount points
+mkdir pts
+mkdir shm

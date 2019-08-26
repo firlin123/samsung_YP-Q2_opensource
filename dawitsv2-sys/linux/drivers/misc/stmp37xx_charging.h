@@ -1,0 +1,20 @@
+#ifndef __CHARGING_H
+#define __CHARGING_H
+
+#include <linux/ioctl.h>
+
+#define CMD_CHARGING_10		10
+#define CMD_CHARGING_20		20
+#define CMD_CHARGING_50		50
+#define CMD_CHARGING_100	100
+#define CMD_CHARGING_150	150
+#define CMD_CHARGING_200	200	
+#define CMD_CHARGING_250	250
+#define CMD_CHARGING_300	300
+#define CMD_CHARGING_350	350
+#define CMD_CHARGING_400	400
+#define CMD_CHARGING_450	450
+#define CMD_CHARGING_500	500
+#define CMD_CHARGING_CLEAR  999
+
+#endif // __CHARGING_H

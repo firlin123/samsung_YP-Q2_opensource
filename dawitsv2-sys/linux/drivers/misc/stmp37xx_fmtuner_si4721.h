@@ -1,0 +1,515 @@
+#ifndef STMP37XX_FMTUNER_SI4721_H
+#define STMP37XX_FMTUNER_SI4721_H
+
+/************************************************
+ * General Commands for SI4721
+ ************************************************/
+#define STCINT  0x01  /* seek/tune complete interrupt */
+#define ASQINT  0x02  /* audio signal quality interrupt  */
+#define RDSINT  0x04  /* RDS interrupt */
+#define RSQINT  0x08  /* signal quality interrupt: this has some bug in current revision */
+#define ERR     0x40  /* error */
+#define CTS     0x80  /* clear to send */
+
+#define POWER_UP                      0x01
+#define POWER_UP_IN_FUNC_FMRX         0x00
+#define POWER_UP_IN_FUNC_AMRX         0x01
+#define POWER_UP_IN_FUNC_FMTX         0x02
+#define POWER_UP_IN_FUNC_WBRX         0x03
+#define POWER_UP_IN_FUNC_QUERY        0x0F
+#define POWER_UP_IN_XOSCEN	      0x10
+#define POWER_UP_IN_PATCH             0x20
+#define POWER_UP_IN_GPO2OEN           0x40
+#define POWER_UP_IN_CTSIEN            0x80
+#define POWER_UP_IN_OPMODE_RX_ANALOG  0x05
+#define POWER_UP_IN_OPMODE_TX_ANALOG  0x50
+
+#define GET_REV           0x10
+#define POWER_DOWN        0x11
+#define SET_PROPERTY      0x12
+#define GET_PROPERTY      0x13
+#define GET_INT_STATUS    0x14
+
+/************************************************
+ * FM RX Commands for SI4721
+ ************************************************/
+#define FM_TUNE_FREQ 0x20
+
+#define FM_SEEK_START           0x21
+#define FM_SEEK_START_IN_WRAP   0x04
+#define FM_SEEK_START_IN_SEEKUP 0x08
+
+#define FM_TUNE_STATUS           0x22
+#define FM_TUNE_STATUS_IN_INTACK 0x01
+#define FM_TUNE_STATUS_IN_CANCEL 0x02
+#define FM_TUNE_STATUS_OUT_VALID 0x01
+#define FM_TUNE_STATUS_OUT_AFCRL 0x02
+#define FM_TUNE_STATUS_OUT_BTLF  0x80
+
+#define FM_RSQ_STATUS              0x23
+#define FM_RSQ_STATUS_IN_INTACK    0x01
+#define FM_RSQ_STATUS_OUT_RSSILINT 0x01
+#define FM_RSQ_STATUS_OUT_RSSIHINT 0x02
+#define FM_RSQ_STATUS_OUT_ASNRLINT 0x04
+#define FM_RSQ_STATUS_OUT_ASNRHINT 0x08
+#define FM_RSQ_STATUS_OUT_BLENDINT 0x80
+#define FM_RSQ_STATUS_OUT_VALID    0x01
+#define FM_RSQ_STATUS_OUT_AFCRL    0x02
+#define FM_RSQ_STATUS_OUT_SMUTE    0x08
+#define FM_RSQ_STATUS_OUT_PILOT    0x80
+#define FM_RSQ_STATUS_OUT_STBLEND  0x7F
+
+#define FM_RDS_STATUS               0x24
+#define FM_RDS_STATUS_IN_INTACK     0x01
+#define FM_RDS_STATUS_IN_MTFIFO     0x02
+#define FM_RDS_STATUS_OUT_RECV      0x01
+#define FM_RDS_STATUS_OUT_SYNCLOST  0x02
+#define FM_RDS_STATUS_OUT_SYNCFOUND 0x04
+#define FM_RDS_STATUS_OUT_SYNC      0x01
+#define FM_RDS_STATUS_OUT_GRPLOST   0x04
+#define FM_RDS_STATUS_OUT_BLED      0x03
+#define FM_RDS_STATUS_OUT_BLEC      0x0C
+#define FM_RDS_STATUS_OUT_BLEB      0x30
+#define FM_RDS_STATUS_OUT_BLEA      0xC0
+#define FM_RDS_STATUS_OUT_BLED_SHFT 0
+#define FM_RDS_STATUS_OUT_BLEC_SHFT 2
+#define FM_RDS_STATUS_OUT_BLEB_SHFT 4
+#define FM_RDS_STATUS_OUT_BLEA_SHFT 6
+
+/************************************************
+ * FM TX Commands for SI4721
+ ************************************************/
+#define TX_TUNE_FREQ 0x30
+#define TX_TUNE_POWER 0x31
+#define TX_TUNE_MEASURE 0x32
+#define TX_TUNE_STATUS           0x33
+#define TX_TUNE_STATUS_IN_INTACK 0x01
+
+#define TX_ASQ_STATUS             0x34
+#define TX_ASQ_STATUS_IN_INTACK   0x01
+#define TX_ASQ_STATUS_OUT_IALL    0x01
+#define TX_ASQ_STATUS_OUT_IALH    0x02
+#define TX_ASQ_STATUS_OUT_OVERMOD 0x04
+
+#define TX_RDS_BUFF           0x35
+#define TX_RDS_BUFF_IN_INTACK 0x01
+#define TX_RDS_BUFF_IN_MTBUFF 0x02
+#define TX_RDS_BUFF_IN_LDBUFF 0x04
+#define TX_RDS_BUFF_IN_FIFO   0x80
+#define TX_RDS_PS 0x36
+
+/************************************************
+ * FM RX Properties for SI4721
+ ************************************************/
+#define FM_DEEMPHASIS      0x1100
+#define FM_DEEMPHASIS_MASK 0x0003
+#define FM_DEEMPHASIS_SHFT 0
+
+#define FM_BLEND_STEREO_THRESHOLD      0x1105
+#define FM_BLEND_STEREO_THRESHOLD_MASK 0x007F
+#define FM_BLEND_STEREO_THRESHOLD_SHFT 0
+
+#define FM_BLEND_MONO_THRESHOLD      0x1106
+#define FM_BLEND_MONO_THRESHOLD_MASK 0x007F
+#define FM_BLEND_MONO_THRESHOLD_SHFT 0
+
+#define FM_MAX_TUNE_ERROR      0x1108
+#define FM_MAX_TUNE_ERROR_MASK 0x007F
+#define FM_MAX_TUNE_ERROR_SHFT 0
+
+#define FM_RSQ_INT_SOURCE               0x1200
+#define FM_RSQ_INT_SOURCE_RSSILIEN_MASK 0x0001
+#define FM_RSQ_INT_SOURCE_RSSIHIEN_MASK 0x0002
+#define FM_RSQ_INT_SOURCE_ASNRLIEN_MASK 0x0004
+#define FM_RSQ_INT_SOURCE_ASNRHIEN_MASK 0x0008
+#define FM_RSQ_INT_SOURCE_BLENDIEN_MASK 0x0080
+#define FM_RSQ_INT_SOURCE_RSSILIEN_SHFT 0
+#define FM_RSQ_INT_SOURCE_RSSIHIEN_SHFT 1
+#define FM_RSQ_INT_SOURCE_ASNRLIEN_SHFT 2
+#define FM_RSQ_INT_SOURCE_ASNRHIEN_SHFT 3
+#define FM_RSQ_INT_SOURCE_BLENDIEN_SHFT 7
+
+#define FM_RSQ_SNR_HI_THRESHOLD      0x1201
+#define FM_RSQ_SNR_HI_THRESHOLD_MASK 0x007F
+#define FM_RSQ_SNR_HI_THRESHOLD_SHFT 0
+
+#define FM_RSQ_SNR_LO_THRESHOLD      0x1202
+#define FM_RSQ_SNR_LO_THRESHOLD_MASK 0x007F
+#define FM_RSQ_SNR_LO_THRESHOLD_SHFT 0
+
+#define FM_RSQ_RSSI_HI_THRESHOLD      0x1203
+#define FM_RSQ_RSSI_HI_THRESHOLD_MASK 0x007F
+#define FM_RSQ_RSSI_HI_THRESHOLD_SHFT 0
+
+#define FM_RSQ_RSSI_LO_THRESHOLD      0x1204
+#define FM_RSQ_RSSI_LO_THRESHOLD_MASK 0x007F
+#define FM_RSQ_RSSI_LO_THRESHOLD_SHFT 0
+
+#define FM_RSQ_BLEND_THRESHOLD            0x1207
+#define FM_RSQ_BLEND_THRESHOLD_BLEND_MASK 0x007F
+#define FM_RSQ_BLEND_THRESHOLD_PILOT_MASK 0x0080
+#define FM_RSQ_BLEND_THRESHOLD_BLEND_SHFT 0
+#define FM_RSQ_BLEND_THRESHOLD_PILOT_SHFT 7
+
+#define FM_SOFT_MUTE_RATE      0x1300
+#define FM_SOFT_MUTE_RATE_MASK 0x00FF
+#define FM_SOFT_MUTE_RATE_SHFT 0
+
+#define FM_SOFT_MUTE_MAX_ATTENUATION      0x1302
+#define FM_SOFT_MUTE_MAX_ATTENUATION_MASK 0x001F
+#define FM_SOFT_MUTE_MAX_ATTENUATION_SHFT 0
+
+#define FM_SOFT_MUTE_SNR_THRESHOLD      0x1303
+#define FM_SOFT_MUTE_SNR_THRESHOLD_MASK 0x000F
+#define FM_SOFT_MUTE_SNR_THRESHOLD_SHFT 0
+
+#define FM_SEEK_BAND_BOTTOM 0x1400
+
+#define FM_SEEK_BAND_TOP 0x1401
+
+#define FM_SEEK_FREQ_SPACING      0x1402
+#define FM_SEEK_FREQ_SPACING_MASK 0x001F
+#define FM_SEEK_FREQ_SPACING_SHFT 0
+
+#define FM_SEEK_TUNE_SNR_THRESHOLD      0x1403
+#define FM_SEEK_TUNE_SNR_THRESHOLD_MASK 0x007F
+#define FM_SEEK_TUNE_SNR_THRESHOLD_SHFT 0
+
+#define FM_SEEK_TUNE_RSSI_THRESHOLD      0x1404
+#define FM_SEEK_TUNE_RSSI_THRESHOLD_MASK 0x007F
+#define FM_SEEK_TUNE_RSSI_THRESHOLD_SHFT 0
+
+#define FM_RDS_INTERRUPT_SOURCE                0x1500
+#define FM_RDS_INTERRUPT_SOURCE_RECV_MASK      0x0001
+#define FM_RDS_INTERRUPT_SOURCE_SYNCLOST_MASK  0x0002
+#define FM_RDS_INTERRUPT_SOURCE_SYNCFOUND_MASK 0x0004
+#define FM_RDS_INTERRUPT_SOURCE_RECV_SHFT      0
+#define FM_RDS_INTERRUPT_SOURCE_SYNCLOST_SHFT  1
+#define FM_RDS_INTERRUPT_SOURCE_SYNCFOUND_SHFT 2
+
+#define FM_RDS_INTERRUPT_FIFO_COUNT      0x1501
+#define FM_RDS_INTERRUPT_FIFO_COUNT_MASK 0x00FF
+#define FM_RDS_INTERRUPT_FIFO_COUNT_SHFT 0
+
+#define FM_RDS_CONFIG             0x1502
+#define FM_RDS_CONFIG_RDSEN_MASK  0x0001
+#define FM_RDS_CONFIG_BLETHD_MASK 0x0300
+#define FM_RDS_CONFIG_BLETHC_MASK 0x0C00
+#define FM_RDS_CONFIG_BLETHB_MASK 0x3000
+#define FM_RDS_CONFIG_BLETHA_MASK 0xC000
+#define FM_RDS_CONFIG_RDSEN_SHFT  0
+#define FM_RDS_CONFIG_BLETHD_SHFT 8
+#define FM_RDS_CONFIG_BLETHC_SHFT 10
+#define FM_RDS_CONFIG_BLETHB_SHFT 12
+#define FM_RDS_CONFIG_BLETHA_SHFT 14
+// TX_COMPONENT_ENABLE
+#define TX_COMPONENT_ENABLE            0x2100
+#define TX_COMPONENT_ENABLE_PILOT_MASK 0x0001
+#define TX_COMPONENT_ENABLE_LMR_MASK   0x0002
+#define TX_COMPONENT_ENABLE_RDS_MASK   0x0004
+#define TX_COMPONENT_ENABLE_PILOT_SHFT 0
+#define TX_COMPONENT_ENABLE_LMR_SHFT   1
+#define TX_COMPONENT_ENABLE_RDS_SHFT   2
+
+#define TX_AUDIO_DEVIATION 0x2101
+
+#define TX_PILOT_DEVIATION 0x2102
+
+#define TX_RDS_DEVIATION 0x2103
+
+#define TX_LINE_INPUT_LEVEL              0x2104
+#define TX_LINE_INPUT_LEVEL_LILEVEL_MASK 0x03FF
+#define TX_LINE_INPUT_LEVEL_LIATTEN_MASK 0x3000
+#define TX_LINE_INPUT_LEVEL_LILEVEL_SHFT 0
+#define TX_LINE_INPUT_LEVEL_LIATTEN_SHFT 12
+
+#define TX_LINE_INPUT_MUTE             0x2105
+#define TX_LINE_INPUT_MUTE_RIMUTE_MASK 0x0001
+#define TX_LINE_INPUT_MUTE_LIMUTE_MASK 0x0002
+#define TX_LINE_INPUT_MUTE_RIMUTE_SHFT 0
+#define TX_LINE_INPUT_MUTE_LIMUTE_SHFT 1
+
+#define TX_PREEMPHASIS     0x2106
+#define TX_PREMPHASIS_MASK 0x0003
+#define TX_PREMPHASIS_SHFT 0
+
+#define TX_PILOT_FREQUENCY 0x2107
+
+#define TX_ACOMP_ENABLE              0x2200
+#define TX_ACOMP_ENABLE_ACEN_MASK    0x0001
+#define TX_ACOMP_ENABLE_LIMITEN_MASK 0x0002
+#define TX_ACOMP_ENABLE_ACEN_SHFT    0
+#define TX_ACOMP_ENABLE_LIMITEN_SHFT 1
+
+#define TX_ACOMP_THRESHOLD 0x2201
+
+#define TX_ACOMP_ATTACK_TIME      0x2202
+#define TX_ACOMP_ATTACK_TIME_MASK 0x000F
+#define TX_ACOMP_ATTACK_TIME_SHFT 0
+
+#define TX_ACOMP_RELEASE_TIME      0x2203
+#define TX_ACOMP_RELEASE_TIME_MASK 0x0007
+#define TX_ACOMP_RELEASE_TIME_SHFT 0
+
+#define TX_ACOMP_GAIN      0x2204
+#define TX_ACOMP_GAIN_MASK 0x003F
+#define TX_ACOMP_GAIN_SHFT 0
+
+#define TX_LIMITER_RELEASE_TIME 0x2205
+
+#define TX_ASQ_INT_SELECT                 0x2300
+#define TX_ASQ_INT_SELECT_IALLIEN_MASK    0x0001
+#define TX_ASQ_INT_SELECT_IALHIEN_MASK    0x0002
+#define TX_ASQ_INT_SELECT_OVERMODIEN_MASK 0x0004
+#define TX_ASQ_INT_SELECT_IALLIEN_SHFT    0
+#define TX_ASQ_INT_SELECT_IALHIEN_SHFT    1
+#define TX_ASQ_INT_SELECT_OVERMODIEN_SHFT 2
+
+#define TX_ASQ_LEVEL_LOW      0x2301
+#define TX_ASQ_LEVEL_LOW_MASK 0x00FF
+#define TX_ASQ_LEVEL_LOW_SHFT 0
+
+#define TX_ASQ_DURATION_LOW 0x2302
+
+#define TX_ASQ_LEVEL_HIGH      0x2303
+#define TX_ASQ_LEVEL_HIGH_MASK 0x00FF
+#define TX_ASQ_LEVEL_HIGH_SHFT 0
+
+#define TX_ASQ_DURATION_HIGH 0x2304
+
+#define TX_RDS_INT_SOURCE               0x2C00
+#define TX_RDS_INT_SOURCE_FIFOMT_MASK   0x0001
+#define TX_RDS_INT_SOURCE_CBUFWRAP_MASK 0x0002
+#define TX_RDS_INT_SOURCE_FIFOXMIT_MASK 0x0004
+#define TX_RDS_INT_SOURCE_CBUFXMIT_MASK 0x0008
+#define TX_RDS_INT_SOURCE_PSXMIT_MASK   0x0010
+#define TX_RDS_INT_SOURCE_FIFOMT_SHFT   0
+#define TX_RDS_INT_SOURCE_CBUFWRAP_SHFT 1
+#define TX_RDS_INT_SOURCE_FIFOXMIT_SHFT 2
+#define TX_RDS_INT_SOURCE_CBUFXMIT_SHFT 3
+#define TX_RDS_INT_SOURCE_PSXMIT_SHFT   4
+
+#define TX_RDS_PI 0x2C01
+
+#define TX_RDS_PS_MIX      0x2C02
+#define TX_RDS_PS_MIX_MASK 0x0007
+#define TX_RDS_PS_MIX_SHFT 0
+
+#define TX_RDS_PS_MISC             0x2C03
+#define TX_RDS_PS_MISC_RDSMS_MASK  0x0008
+#define TX_RDS_PS_MISC_RDSTA_MASK  0x0010
+#define TX_RDS_PS_MISC_RDSPTY_MASK 0x03E0
+#define TX_RDS_PS_MISC_RDSTP_MASK  0x0400
+#define TX_RDS_PS_MISC_FORCEB_MASK 0x0800
+#define TX_RDS_PS_MISC_RDSD0_MASK  0x1000
+#define TX_RDS_PS_MISC_RDSD1_MASK  0x2000
+#define TX_RDS_PS_MISC_RDSD2_MASK  0x4000
+#define TX_RDS_PS_MISC_RDSD3_MASK  0x8000
+#define TX_RDS_PS_MISC_RDSMS_SHFT  3
+#define TX_RDS_PS_MISC_RDSTA_SHFT  4
+#define TX_RDS_PS_MISC_RDSPTY_SHFT 5
+#define TX_RDS_PS_MISC_RDSTP_SHFT  10
+#define TX_RDS_PS_MISC_FORCEB_SHFT 11
+#define TX_RDS_PS_MISC_RDSD0_SHFT  12
+#define TX_RDS_PS_MISC_RDSD1_SHFT  13
+#define TX_RDS_PS_MISC_RDSD2_SHFT  14
+#define TX_RDS_PS_MISC_RDSD3_SHFT  15
+
+#define TX_RDS_PS_REPEAT_COUNT      0x2C04
+#define TX_RDS_PS_REPEAT_COUNT_MASK 0x00FF
+#define TX_RDS_PS_REPEAT_COUNT_SHFT 0
+
+#define TX_RDS_PS_MESSAGE_COUNT      0x2C05
+#define TX_RDS_PS_MESSAGE_COUNT_MASK 0x000F
+#define TX_RDS_PS_MESSAGE_COUNT_SHFT 0
+
+#define TX_RDS_PS_AF 0x2C06
+
+#define TX_RDS_FIFO_SIZE      0x2C07
+#define TX_RDS_FIFO_SIZE_MASK 0x00FF
+#define TX_RDS_FIFO_SIZE_SHFT 0
+
+/************************************************
+ * General RX Properties
+ ************************************************/
+#define RX_VOLUME      0x4000
+#define RX_VOLUME_MASK 0x003F
+#define RX_VOLUME_SHFT 0
+
+#define RX_HARD_MUTE 0x4001
+#define RX_HARD_MUTE_RMUTE_MASK 0x0001
+#define RX_HARD_MUTE_LMUTE_MASK 0x0002
+#define RX_HARD_MUTE_RMUTE_SHFT 0
+#define RX_HARD_MUTE_LMUTE_SHFT 1
+
+#define GPO_IEN		    0x0001
+#define GPO_IEN_STCIEN_MASK 0x0001
+#define GPO_IEN_ASQIEN_MASK 0x0002
+#define GPO_IEN_RDSIEN_MASK 0x0004
+#define GPO_IEN_RSQIEN_MASK 0x0008
+#define GPO_IEN_ERRIEN_MASK 0x0040
+#define GPO_IEN_CTSIEN_MASK 0x0080
+#define GPO_IEN_STCREP_MASK 0x0100
+#define GPO_IEN_ASQREP_MASK 0x0200
+#define GPO_IEN_RDSREP_MASK 0x0400
+#define GPO_IEN_RSQREP_MASK 0x0800
+#define GPO_IEN_STCIEN_SHFT 0
+#define GPO_IEN_ASQIEN_SHFT 1
+#define GPO_IEN_RDSIEN_SHFT 2
+#define GPO_IEN_RSQIEN_SHFT 3
+#define GPO_IEN_ERRIEN_SHFT 6
+#define GPO_IEN_CTSIEN_SHFT 7
+#define GPO_IEN_STCREP_SHFT 8
+#define GPO_IEN_ASQREP_SHFT 9
+#define GPO_IEN_RDSREP_SHFT 10
+#define GPO_IEN_RSQREP_SHFT 11
+
+/************************************************
+ * Bit Definitions
+ ************************************************/
+// DIGITAL_MODE - used for input or output
+#define DIGITAL_MODE_I2S    0x0
+#define DIGITAL_MODE_LEFT   0x6
+#define DIGITAL_MODE_MSB1ST 0xC
+#define DIGITAL_MODE_MSB2ND 0x8
+// DIGITAL_SIZE - used for input or output
+#define DIGITAL_SIZE_16 0x0
+#define DIGITAL_SIZE_20 0x1
+#define DIGITAL_SIZE_24 0x2
+#define DIGITAL_SIZE_8  0x3
+
+#define FM_DEEMPH_75US 0x2
+#define FM_DEEMPH_50US 0x1
+
+#define FM_RDS_BLETH_NO_ERRORS     0x0
+#define FM_RDS_BLETH_1OR2_ERRORS   0x1
+#define FM_RDS_BLETH_3TO5_ERRORS   0x2
+#define FM_RDS_BLETH_UNCORRECTABLE 0x3
+
+#define TX_LINE_INPUT_LEVEL_LIATTEN_396kOhm 0x0000
+#define TX_LINE_INPUT_LEVEL_LIATTEN_100kOhm 0x1000
+#define TX_LINE_INPUT_LEVEL_LIATTEN_74kOhm  0x2000
+#define TX_LINE_INPUT_LEVEL_LIATTEN_60kOhm  0x3000
+
+#define TX_PREEMPHASIS_75US     0x0
+#define TX_PREEMPHASIS_50US     0x1
+#define TX_PREEMPHASIS_DISABLED 0x2
+
+#define TX_ACOMP_ATTACK_TIME_0_5MS 0x0
+#define TX_ACOMP_ATTACK_TIME_1_0MS 0x1
+#define TX_ACOMP_ATTACK_TIME_1_5MS 0x2
+#define TX_ACOMP_ATTACK_TIME_2_0MS 0x3
+#define TX_ACOMP_ATTACK_TIME_2_5MS 0x4
+#define TX_ACOMP_ATTACK_TIME_3_0MS 0x5
+#define TX_ACOMP_ATTACK_TIME_3_5MS 0x6
+#define TX_ACOMP_ATTACK_TIME_4_0MS 0x7
+#define TX_ACOMP_ATTACK_TIME_4_5MS 0x8
+#define TX_ACOMP_ATTACK_TIME_5_0MS 0x9
+
+#define TX_ACOMP_RELEASE_TIME_100MS  0x0
+#define TX_ACOMP_RELEASE_TIME_200MS  0x1
+#define TX_ACOMP_RELEASE_TIME_350MS  0x2
+#define TX_ACOMP_RELEASE_TIME_525MS  0x3
+#define TX_ACOMP_RELEASE_TIME_1000MS 0x4
+
+#define TX_RDS_PS_MIX_FIFO_EMPTY 0x0
+#define TX_RDS_PS_MIX_12_5_PCT   0x1
+#define TX_RDS_PS_MIX_25_PCT     0x2
+#define TX_RDS_PS_MIX_50_PCT     0x3
+#define TX_RDS_PS_MIX_75_PCT     0x4
+#define TX_RDS_PS_MIX_87_5_PCT   0x5
+#define TX_RDS_PS_MIX_100_PCT    0x6
+
+#define TX_RDS_PS_MISC_PTY_NONE     0
+#define TX_RDS_PS_MISC_PTY_NEWS     1
+#define TX_RDS_PS_MISC_PTY_INFO     2
+#define TX_RDS_PS_MISC_PTY_SPORTS   3
+#define TX_RDS_PS_MISC_PTY_TALK     4
+#define TX_RDS_PS_MISC_PTY_ROCK     5
+#define TX_RDS_PS_MISC_PTY_CLROCK   6
+#define TX_RDS_PS_MISC_PTY_ADHITS   7
+#define TX_RDS_PS_MISC_PTY_SOFTROCK 8
+#define TX_RDS_PS_MISC_PTY_TOP40    9
+#define TX_RDS_PS_MISC_PTY_COUNTRY  10
+#define TX_RDS_PS_MISC_PTY_OLDIES   11
+#define TX_RDS_PS_MISC_PTY_SOFT     12
+#define TX_RDS_PS_MISC_PTY_NOST     13
+#define TX_RDS_PS_MISC_PTY_JAZZ     14
+#define TX_RDS_PS_MISC_PTY_CLASS    15
+#define TX_RDS_PS_MISC_PTY_RHYBLUES 16
+#define TX_RDS_PS_MISC_PTY_SOFTRB   17
+#define TX_RDS_PS_MISC_PTY_FGNLANG  18
+#define TX_RDS_PS_MISC_PTY_RMUSIC   19
+#define TX_RDS_PS_MISC_PTY_RTALK    20
+#define TX_RDS_PS_MISC_PTY_PERS     21
+#define TX_RDS_PS_MISC_PTY_PUBLIC   22
+#define TX_RDS_PS_MISC_PTY_COLLEGE  23
+#define TX_RDS_PS_MISC_PTY_UN24     24
+#define TX_RDS_PS_MISC_PTY_UN25     25
+#define TX_RDS_PS_MISC_PTY_UN26     26
+#define TX_RDS_PS_MISC_PTY_UN27     27
+#define TX_RDS_PS_MISC_PTY_UN28     28
+#define TX_RDS_PS_MISC_PTY_WTHR     29
+#define TX_RDS_PS_MISC_PTY_EMERTEST 30
+#define TX_RDS_PS_MISC_PTY_ALERT    31
+
+/********************************************************
+ * Macro definition
+ *******************************************************/
+#define FM_SI4721_CHIPID	0x63
+
+
+#define SET_TUNER_RESET   stmp37xx_gpio_set_dir(BANK0_PIN10, GPIO_DIR_OUT)
+#define SET_TUNER_SEARCH stmp37xx_gpio_set_dir(BANK0_PIN11, GPIO_DIR_IN)
+
+#define RESET_HIGH   stmp37xx_gpio_set_level(BANK0_PIN10, GPIO_VOL_33)
+#define RESET_LOW   stmp37xx_gpio_set_level(BANK0_PIN10, GPIO_VOL_18)
+
+#define MUTEP_ON stmp37xx_gpio_set_level(BANK1_PIN22, GPIO_VOL_33)
+#define MUTEP_OFF stmp37xx_gpio_set_level(BANK1_PIN22, GPIO_VOL_18)
+#define IS_MUTEP_ON stmp37xx_gpio_get_level(BANK1_PIN22) ? TRUE : FALSE
+
+#define WAIT_STC_INTERRUPT stmp37xx_gpio_get_level(BANK0_PIN11)
+
+/* Powerup delay in milliseconds */
+#define POWERUP_TIME 500 
+
+#define RETURN_OK 0
+#define RETURN_NG -1
+#define TRUE 1
+#define FALSE 0
+
+/********************************************************
+ * Data type definition
+ ********************************************************/
+typedef unsigned char UC;
+typedef signed char SC;
+typedef unsigned short US;
+typedef signed short SS;
+typedef unsigned int UI;
+typedef signed int SI;
+typedef unsigned long UL;
+typedef signed long SL;
+
+/********************************************************
+ * IOCTL definition
+ ********************************************************/
+#define FM_MAGIC               0xCA
+#define FM_SET_REGION          _IOW(FM_MAGIC, 0, void *)
+#define FM_STEP_UP             _IO(FM_MAGIC, 1)
+#define FM_STEP_DOWN           _IO(FM_MAGIC, 2)
+#define FM_AUTO_UP             _IO(FM_MAGIC, 3)
+#define FM_AUTO_DOWN           _IO(FM_MAGIC, 4)
+#define FM_SET_FREQUENCY       _IOW(FM_MAGIC, 5, UI)
+#define FM_GET_FREQUENCY       _IOR(FM_MAGIC, 6, UI)
+#define FM_SET_VOLUME          _IOW(FM_MAGIC, 7, UI)
+#define FM_SET_RSSI            _IOW(FM_MAGIC, 8, US)
+#define FM_GET_RDS_DATA        _IOR(FM_MAGIC, 9, UC *)
+#define FM_RX_POWER_UP         _IO(FM_MAGIC, 10)
+#define FM_TX_POWER_UP         _IO(FM_MAGIC, 11)
+#define FM_SET_CONFIGURATION   _IOW(FM_MAGIC, 12, US)
+#define FM_IS_TUNED            _IO(FM_MAGIC, 13)
+#define FM_SET_FREQUENCY_STEP  _IOW(FM_MAGIC, 14, UC)
+#define FM_POWER_DOWN          _IO(FM_MAGIC, 15)
+
+#endif

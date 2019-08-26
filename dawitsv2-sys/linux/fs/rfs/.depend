@@ -1,0 +1,73 @@
+fm_blkdev.o: fm_blkdev.c \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/linux/version.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/linux/types.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/linux/sched.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/linux/kernel.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/linux/module.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/linux/hdreg.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/linux/blkdev.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/asm/uaccess.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/asm/errno.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/asm/arch/digctl.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/linux/rfs/fm_global.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/linux/rfs/fm_blkdev.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/linux/ufd/fd_if.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/linux/rfs/ftl.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/linux/rfs/rfs.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/linux/rfs/rfs_api.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/linux/iobuf.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/linux/blk.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/linux/blkpg.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/linux/devfs_fs_kernel.h \
+   $(wildcard /home/hcyun/Projects/s3-src/linux-2.4.x/include/config/devfs/fs.h) \
+   $(wildcard /home/hcyun/Projects/s3-src/linux-2.4.x/include/config/proc/fs.h) \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/linux/proc_fs.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/asm/hardirq.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/linux/vmalloc.h
+fm_global.o: fm_global.c \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/linux/rfs/fm_global.h
+fm_sem.o: fm_sem.c \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/linux/rfs/fm_global.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/linux/rfs/fm_sem.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/asm/semaphore.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/linux/ufd/fd_if.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/asm/arch/digctl.h
+super.o: super.c \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/linux/sched.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/linux/unistd.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/linux/proc_fs.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/linux/module.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/linux/init.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/linux/types.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/linux/errno.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/linux/slab.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/linux/fs.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/linux/locks.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/linux/smp_lock.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/linux/ioctl.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/linux/stat.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/linux/blkdev.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/linux/quotaops.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/linux/compatmac.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/linux/iobuf.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/linux/ctype.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/linux/bitops.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/asm/semaphore.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/asm/byteorder.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/asm/uaccess.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/asm/fcntl.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/linux/rfs/fm_global.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/linux/rfs/fm_blkdev.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/linux/ufd/fd_if.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/linux/rfs/ftl.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/linux/rfs/rfs.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/linux/rfs/rfs_api.h \
+   $(wildcard /home/hcyun/Projects/s3-src/linux-2.4.x/include/config/rfs/fat32.h) \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/linux/rfs/rfs_code_convert.h \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/asm/arch/digctl.h \
+   $(wildcard /home/hcyun/Projects/s3-src/linux-2.4.x/include/config/proc/fs.h) \
+   $(wildcard /home/hcyun/Projects/s3-src/linux-2.4.x/include/config/rfs/page/cache.h) \
+   $(wildcard /home/hcyun/Projects/s3-src/linux-2.4.x/include/config/rfs/nls.h) \
+   $(wildcard /home/hcyun/Projects/s3-src/linux-2.4.x/include/config/rfs/nls/jp.h) \
+   /home/hcyun/Projects/s3-src/linux-2.4.x/include/linux/proc_fs.h \
+   $(wildcard /home/hcyun/Projects/s3-src/linux-2.4.x/include/config/free/cluster/management.h)

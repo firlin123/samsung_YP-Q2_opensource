@@ -1,0 +1,68 @@
+#!/bin/sh
+
+# Compile using gcc and simultaneously generate dependencies suitable
+# for inclusion in a makefile.
+
+# Grab arguments: top, target file, source file
+# The rest of the arguments are the compilation command line, in $*
+top="$1"
+target_file="$2"
+source_file="$3"
+shift
+shift
+shift
+
+dir=$(dirname "${target_file}")
+base=$(basename "${target_file}" .o)
+source_nopath=$(basename "${source_file}")
+dep_file="${dir}/${base}.d"
+dep2_file="${dir}/${base}.d2"
+failed_file="${dir}/${base}.failed"
+
+# Get the source suffix
+suffix=$(echo ${source_file} | sed -e 's/.*\.//g')
+
+# Create output directory
+target_dir=$(dirname "${target_file}")
+if ! [ -d "${target_dir}" ]
+then
+	mkdir -p "${target_dir}"
+fi
+
+# Reset the dependency file
+: > "${dep2_file}"
+
+# Compile
+case "${suffix}" in
+    "cpp") msg="C++      " ;;
+    "cc")  msg="C++      " ;;
+    "c")   msg="CC       " ;;
+    "S")   msg="Asm      " ;;
+    "s")   msg="Asm      " ;;
+    *)     msg="Compiling" ;;
+esac
+echo " ${msg} ${source_nopath}"
+
+SUNPRO_DEPENDENCIES="${dep2_file} ${target_file}" $*
+exit_code=$?
+if ! [ "${exit_code}" = "0" ]
+then
+	# Compile failed. Mark it as such.
+	: > "${failed_file}"
+	echo "Command failed with exit code ${exit_code}:"
+	echo "$*"
+	exit ${exit_code}
+fi
+
+# Convert the leading paths into $(TOP) ready for Makefile inclusion
+sed -e "s|${top}|\$(TOP)|g" < "${dep2_file}" > "${dep_file}"
+
+# Add a phony target for each header so make doesn't complain about
+# them disappearing.
+tr -s ' \\' '\n' < "${dep2_file}" |
+    grep -v ':' |
+    sed -e 's/$/:/' |
+    sed -e "s|${top}|\$(TOP)|g" >> "${dep_file}"
+
+# Remove any .d2 and .failed files
+rm -f "${dep2_file}" "${failed_file}"

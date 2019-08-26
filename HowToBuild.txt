@@ -1,0 +1,15 @@
+< ENGLISH > 
+- get Toolchain
+      From Code Sourcery site(www.codesourcery.com)
+         : ARM Cross Compiler 4.1.1 RPM Binary
+
+- $make  (Each folder : dawitsv2-sys, dawitsv2-mid)
+
+
+
+< KOREAN > 
+Linux에서 Makefile을 이용한 Compile 과정과 동일하게 각각 dawitsv2-sys나 dawitsv2-mid 폴더에서 
+"make"라고 타이핑하고 엔터를 치면 Compile이 됩니다.
+ 
+ARM Cross Compiler ToolChain은 CoreSourcery에서 배포하는 ARM Cross Compiler 4.1.1 RPM Binary를 설치하여 사용하였습니다.
+CodeSourcey 사이트에 가시면 RPM 버전으로 설치파일을 받으실 수 있습니다.

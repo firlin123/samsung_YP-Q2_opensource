@@ -1,0 +1,22 @@
+#ifndef _DDI_POWER_ERRORDEFS_H
+#define _DDI_POWER_ERRORDEFS_H
+
+#include "../include/ddi_errordefs.h"
+
+
+#define ERROR_DDI_POWER_GENERAL                                 (ERROR_DDI_POWER_GROUP)
+#define ERROR_DDI_POWER_HCLK_SLOW_TOO_LOW                       (ERROR_DDI_POWER_GROUP + 1)
+#define ERROR_DDI_POWER_HCLK_FAST_TOO_HIGH                      (ERROR_DDI_POWER_GROUP + 2)
+#define ERROR_DDI_POWER_CANT_MEET_HCLK_CONSTRAINTS              (ERROR_DDI_POWER_GROUP + 3)
+#define ERROR_DDI_POWER_PLL_OFF_BUT_NOT_BYPASSED                (ERROR_DDI_POWER_GROUP + 4)
+
+#define ERROR_DDI_POWER_INVALID_PCLK_FREQ                       (ERROR_DDI_POWER_GROUP)
+#define ERROR_DDI_POWER_INVALID_XCLK_FREQ                       (ERROR_DDI_POWER_GROUP + 1)
+#define ERROR_DDI_POWER_INVALID_EMICLK_FREQ                     (ERROR_DDI_POWER_GROUP + 2)
+#define ERROR_DDI_POWER_INVALID_POWER_SOURCE                    (ERROR_DDI_POWER_GROUP + 3)
+#define ERROR_DDI_POWER_VDDD_PARAM_ADJUSTED                     (ERROR_DDI_POWER_GROUP + 4)
+#define ERROR_DDI_POWER_VDDA_PARAM_ADJUSTED                     (ERROR_DDI_POWER_GROUP + 5)
+#define ERROR_DDI_POWER_VDDIO_PARAM_ADJUSTED                    (ERROR_DDI_POWER_GROUP + 6)
+#define ERROR_DDI_POWER_INVALID_PARAM                           (ERROR_DDI_POWER_GROUP + 7)
+#endif//_DDI_POWER_ERRORDEFS_H 
+
