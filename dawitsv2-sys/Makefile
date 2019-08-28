@@ -9,6 +9,7 @@ endif
 
 VARIANT			?= 37xx
 
+PREBUILDDIR		= $(TOP)/prebuild
 BUILDDIR		= $(TOP)/build
 USERDIR			= $(TOP)/user
 # busybox build
@@ -129,6 +130,7 @@ rootfs-under-fakeroot:
 	@echo Unpacking Busybox into rootfs tree
 	@(cd $(ROOTFS_DIR) && cpio $(CPIO_IN_FLAGS) < $(BUSYBOX_CPIO))
 	@ln -s sbin/init $(ROOTFS_DIR)/init
+	@cp -r $(PREBUILDDIR)/* $(ROOTFS_DIR)
 	
 # copy libraries (root)
 	@echo Copying Root libraries

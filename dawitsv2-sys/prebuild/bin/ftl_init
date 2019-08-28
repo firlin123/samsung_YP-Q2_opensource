@@ -1,0 +1,24 @@
+#!/bin/sh
+# NOTE this is a test script. 
+# You should probably change ffdisk source code to do this
+# - script to ffdisk FTL device 
+
+# set /mnt/app size to 64M
+let UFDA0_SEC=64*1024*1024/512
+
+# get /mnt/usb sector size
+UFDA1_SEC=`echo -e "m\\r2\\r$UFDA0_SEC\\r0\\rq\\ry\\r" \
+        | ffdisk /dev/ufda \
+        | grep Partition-1 \
+        | cut -d' ' -f9 | cut -d')' -f1`
+
+echo $UFDA0_SEC
+echo $UFDA1_SEC
+                                                                       
+# do real ffdisk now
+echo -e "m\\r2\\r$UFDA0_SEC\\r$UFDA1_SEC\\rs\\rq\\r" | ffdisk /dev/ufda
+
+# fformat
+fformat -f32 -c 32 /dev/ufda1 || fformat -f16 -c 32 /dev/ufda1
+fformat -f32 -c 32 /dev/ufda2 || fformat -f16 -c 32 /dev/ufda2
+

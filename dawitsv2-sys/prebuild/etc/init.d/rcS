@@ -1,0 +1,675 @@
+#!/bin/sh 
+#
+# This is a main init script for Darwit platform 
+# 
+# (C) 2007 Samsung Electronics
+#
+# Author : Heechul Yun <heechul.yun@samsung.com>
+# Edit   : Jongsu Kim <js365.kim@samsung.com>
+# 
+
+Q2_FW_DAT_INFILES="zImage rootfs.sqfs nandboot.sb Q2BootBMP.img \
+	appfs.cramfs appfs.tar.gz games.tar.gz fw.day _CMD_gangformat"
+
+err_msg()
+{
+    echo "ERROR $*"
+    exit 1 
+}
+
+err_log()
+{
+    echo  "`date` : $*" >> /mnt/app/Err.log 
+}
+
+err_install() 
+{
+    echo "ERROR $*"
+
+    killall -9 install-scr.sh
+
+    rm -f q2-fw.dat
+    rm -f fw.ver fw.tar
+    rm -f Q2_FW_DAT_INFILES
+
+    sync
+
+    # TODO. display firmware upgrade failure. 
+
+    /bin/splash_poweron /share/000150_Update_failed.bmp 0 150
+
+    echo ">> Reset the system" 
+    reboot
+    echo "opm_level 0" > /proc/pm  
+}
+
+handle_corruption_ufda()
+{
+    mount /mnt/app || return  # this will format" 
+
+    err_log "[handle_corruption_ufda]: try to recover" 
+
+    rm -rf /mnt/app/Data
+    rm -f /mnt/app/fsck*.rec /mnt/app/FSCK*.REC 
+    rm -rf /mnt/app/Games
+
+    echo "Logging fsck error"
+    date >> /mnt/app/log.fsck
+    cat /proc/lld/debug | grep ecc >> /mnt/app/log.fsck 
+
+    echo "Backup System.ver if exist" 
+    cp /mnt/app/System.ver /mnt/tmp/System.ver
+
+    if mount -t cramfs /dev/ufdrawc /appfs; then
+	if [ -f "/appfs/appfs.tar.gz" ]; then 
+	    echo "copy app Data"
+	    cat /appfs/appfs.tar.gz | ( cd /mnt/app ; tar zxvf -  )
+	else 
+	    mkdir -p /mnt/app/Data
+	fi
+	if [ -f "/appfs/games.tar.gz" ]; then 
+	    echo "copy games"
+	    cat /appfs/games.tar.gz | ( cd /mnt/app ; tar zxvf -  )
+	else 
+	    mkdir -p /mnt/app/Games
+	fi
+	umount /appfs
+    fi
+
+    if grep "VER" /mnt/tmp/System.ver; then 
+	err_log "Ok. use stored System.ver" 
+	cp /mnt/tmp/System.ver /mnt/app/
+    else 
+	err_log "stored System.ver is corrupted.. use the OasisData.tar.gz" 
+	rm -f /mnt/tmp/System.ver
+    fi 
+    sync
+    sync
+    sync
+
+    umount /mnt/app
+}
+
+handle_noformat_ufda()
+{
+    err_log "[handle_noformat_ufda] mount failed"
+    echo "Unmounting previous mounts" 
+    umount /mnt/app 
+
+    echo "Now re-format the /dev/ufda" 
+    dd if=/dev/ufdrawd of=/mnt/tmp/tmpversion bs=12 count=1
+    sync
+    VERCODE="`awk '{ print $1 }' /mnt/tmp/tmpversion`"
+    if [ "$VERCODE" != "VER" ] ; then
+        ffdisk /dev/ufda -a
+    fi
+
+#    fformat -f12 -c 16 /dev/ufda1 || \
+#    fformat -f12 -c 32 /dev/ufda1 || \
+    fformat -f16 -c 8 /dev/ufda1 || {err_msg "Can't format /dev/ufda1"; \
+    FFDISKNEED=1}
+
+    if [ "$FFDISKNEED" = "1" ] ; then
+        ffdisk /dev/ufda -a
+#        fformat -f12 -c 32 /dev/ufda1 || \
+        fformat -f16 -c 8 /dev/ufda1 || err_msg "No way format /dev/ufda1"
+    fi
+
+    mount /mnt/app 
+
+    fformat -f32 -c 32 /dev/ufda2 || \
+	fformat -f16 -c 32 /dev/ufda2 || err_msg "Can't format /dev/ufda2" 
+
+    if mount -t cramfs /dev/ufdrawc /appfs; then 
+
+	if [ -f "/appfs/appfs.tar.gz" ]; then 
+	    echo "copy appfs"
+	    cat /appfs/appfs.tar.gz | ( cd /mnt/app ; tar zxvf - )
+	fi
+
+	if [ -f "/appfs/games.tar.gz" ]; then 
+	    echo "copy games"
+	    cat /appfs/games.tar.gz | ( cd /mnt/app ; tar zxvf -  )
+	fi
+
+	if [ -d "/appfs/DataTemplate" ]; then 
+	    echo "Copy wallpapers" 
+	    (cd /appfs/DataTemplate; tar cf - . ) | ( cd /mnt/usb; tar xvf - )
+	fi 
+	umount /appfs 
+    else
+	mkdir -p /mnt/app/Data
+    fi
+}
+
+# procedure start downloading 
+handle_nofw()
+{
+    echo "[handle_nofw]: Unable to find a firmware"
+
+    umount /mnt/app
+    umount /mnt/usb 
+
+    # /dev/ufda2 must be formatted. 
+    # TODO : error handling if /dev/ufda1 is not formatted" 
+
+    # display recovery splash image */
+    /bin/splash_poweron /share/000150_Recovery.bmp 0 150
+    sleep 1
+
+    echo ">> Now ready to connect UMS"
+    #echo "usbcontrol 1" > /proc/gadget_udc
+    #insmod g_file_storage file=/dev/ufdra2
+    modprobe g_file_storage file=/dev/ufda2
+
+    echo ">> download firmware to the UMS" 
+    echo "after downlod is finished.. !!reboot the target!!"
+    echo "It will install new firmware automatically"
+
+    echo 
+    echo ">> Start recovery" 
+    echo "After download is finished...press power button!!!" 
+    sleep 1
+    /bin/recovery
+
+#    echo ">> Unloading UMS driver" 
+#    rmmod g_file_storage 
+#    sync 
+
+#    echo ">> Reset the system" 
+#    echo "opm_level 0" > /proc/pm 
+}
+
+handle_cramfs()
+{
+    image=$1
+    dev=$2
+
+    err_log "Error on installing cramfs $image on $dev. Try again"
+    dd if=$image of=$dev bs=4096  || err_msg "Fail again -_-"
+    sync
+}
+
+
+# temporary procedure for initial product without fw version update capability 
+update_fwver()
+{
+    echo "[update_fwver]: Found firmware update"
+
+    # TODO : 
+    update_version `cat /mnt/usb/fw.ver` /mnt/app/System.ver
+    sync
+    update_day `cat /mnt/usb/fw.day` /mnt/app/System.ver
+    sync 
+    
+    [ ! -d "/mnt/usb/System" ] && mkdir -p /mnt/usb/System 
+    head -4 /mnt/app/System.ver > /mnt/usb/System/System.ver
+	echo "                                                                                " >> /mnt/usb/System/System.ver
+    
+    chmod 1555 /mnt/usb/System
+    chmod 1555 /mnt/usb/System/System.ver 
+    rm -f /mnt/usb/fw.ver 
+    rm -f /mnt/usb/fw.day 
+    sync 
+}
+
+
+# procedure to install new firmware image.. 
+install_newfw()
+{
+	echo ""
+    echo "========== Install_NewF/W =========="
+	INSTALL_START_DATE=`date`
+	
+    cd /mnt/usb 
+
+    echo "===== LCD Screen Blink" 
+    #echo "refresh 1" > /proc/lfbctrl
+    /bin/install-scr.sh &  # spinning update screen. 
+
+    echo "===== Decrypting firmware"
+    a16decrypt q2-fw.dat fw.tar fw.ver || err_install "Decryption failed"
+	INSTALL_DECRYPT_DATE=`date`
+	
+    # In Recovery, System.ver file is needed to copy /mnt/app and /dev/ufdrawd
+    if [ ! -f "/mnt/app/System.ver" ]; then 
+		echo "Initial System.ver installation to /mnt/app" 
+		mount -t cramfs /dev/ufdrawc /appfs
+		cp /appfs/System.ver /mnt/app 
+    	dd if=/mnt/app/System.ver of=/dev/ufdrawd bs=512 count=1 conv=sync
+		umount /appfs
+		sync
+    fi 
+
+    #cp -f /mnt/usb/System/fw.ver ./  #for version test, disable later
+    	if check_downgrade `cat fw.ver` /mnt/app/System.ver ; then 
+        	err_install "installed kernel is newer than this one"
+
+    	rm -f q2-fw.dat
+    	rm -f fw.ver fw.tar
+    	rm -f Q2_FW_DAT_INFILES
+		return
+    fi
+
+    echo "===== Decompressing firmware" 
+    tar xvf fw.tar || err_install "Corrupted firmware" 
+
+    echo "===== Removing decrypted firmware Image" 
+    rm -f fw.tar
+
+	INSTALL_DECOMPRESS_DATE=`date`
+
+    if [ -f "appfs.cramfs" ]; then 
+		count=1
+		while true; do 
+			if [ "$count" -gt 3 ]; then   # exit condition
+				echo "Something wrong in /dev/ufdrawc. Rebooting..."
+				rm -f Q2_FW_DAT_INFILES
+				sync
+				reboot
+			else
+				echo "===== Installing UI application...Try $count" 
+				dd if=appfs.cramfs of=/dev/ufdrawc bs=4096 || handle_cramfs appfs.cramfs /dev/ufdrawc 
+				sync
+				
+				echo "Verify UI application" 
+				img_size=`ls -l appfs.cramfs | awk '{print $5}'`
+		
+				echo "2 $img_size" > /proc/lld/chk_ufdraw
+				chk_result=`cat /proc/lld/chk_ufdraw`
+				if [ "$chk_result" == "0" ]; then
+					echo "Verify UI application...Failed"
+				else
+					echo "Verify UI application...OK"
+					rm -f appfs.cramfs 
+					sync
+					break
+				fi
+			fi	
+	
+			count=`expr $count + 1`  # increase counter
+		done
+    fi 
+	INSTALL_APPFS_DATE=`date`
+
+    if [ -f "nandboot.sb" ]; then
+        echo "===== Installing bootloader"
+        nsect=`ls -l nandboot.sb | awk '{ print $5 }'`
+        echo "bootloader num sectors : $nsect"
+        dd if=nandboot.sb of=/dev/misc/nandsb
+        sync
+        #echo "$nsect" > /proc/lld/nandsb
+        echo "===== Installing System.ver on param block"
+        dd if=/mnt/app/System.ver of=/dev/ufdrawd bs=512 count=1 conv=sync
+        sync
+        rm -f nandboot.sb
+        sync
+    fi
+
+    if [ -f "Q2BootBMP.img" ]; then
+        echo "===== Installing bootloader bmp images"
+        dd if=Q2BootBMP.img of=/dev/ufdrawd bs=4096 seek=128
+        sync
+        rm -f Q2BootBMP.img
+        sync
+    fi
+
+    if [ -f "appfs.tar.gz" ]; then 
+		echo "===== Installing appfs Data (or Devel version of appfs)" 
+		cat appfs.tar.gz | (cd /mnt/app; tar -zxvf - )
+		rm -f appfs.tar.gz 
+		sync
+    fi 
+
+    if [ -f "games.tar.gz" ]; then 
+        echo "===== Installing Games" 
+        cat games.tar.gz | ( cd /mnt/app ; tar zxvf -  )
+        rm -f games.tar.gz 
+        sync
+	fi
+	INSTALL_ETC_DATE=`date`
+
+    if [ -f "zImage" ]; then 
+		count=1
+		while true; do 
+			if [ "$count" -gt 3 ]; then   # exit condition
+				echo "Something wrong in /dev/ufdrawa. Rebooting..."
+				rm -f Q2_FW_DAT_INFILES
+				sync
+				reboot
+			else
+				echo "===== Installing Kernel...Try $count" 
+				dd if=zImage of=/dev/ufdrawa bs=4096 || handle_cramfs zImage /dev/ufdrawa 
+				sync
+				
+				echo "Verify Kernel" 
+				img_size=`ls -l zImage | awk '{print $5}'`
+		
+				echo "0 $img_size" > /proc/lld/chk_ufdraw
+				chk_result=`cat /proc/lld/chk_ufdraw`
+				if [ "$chk_result" == "0" ]; then
+					echo "Verify Kernel...Failed"
+				else
+					echo "Verify Kernel...OK"
+					rm -f zImage 
+					sync
+					break
+				fi
+			fi	
+	
+			count=`expr $count + 1`  # increase counter
+		done
+    fi 
+	INSTALL_KERNEL_DATE=`date`
+	
+    if [ -f "rootfs.sqfs" ]; then 
+		count=1
+		while true; do 
+			if [ $count -gt 3 ]; then   # exit condition
+				echo "Something wrong in /dev/ufdrawb. Rebooting..."
+				rm -f Q2_FW_DAT_INFILES
+				sync
+				reboot
+			else
+				echo "===== Installing Root File System...Try $count" 
+				dd if=rootfs.sqfs of=/dev/ufdrawb bs=4096 || handle_cramfs rootfs.sqfs /dev/ufdrawb 
+				sync
+				
+				echo "Verify Root File System" 
+				img_size=`ls -l rootfs.sqfs | awk '{print $5}'`
+		
+				echo "1 $img_size" > /proc/lld/chk_ufdraw
+				chk_result=`cat /proc/lld/chk_ufdraw`
+				if [ "$chk_result" == "0" ]; then
+					echo "Verify Root File System...Failed"
+				else
+					echo "Verify Root File System...OK"
+					rm -f rootfs.sqfs 
+					sync
+					break
+				fi
+			fi	
+	
+			count=`expr $count + 1`  # increase counter
+		done
+    fi 
+	INSTALL_ROOTFS_DATE=`date`
+    
+    echo "===== Removing encrypted firmware Image" 
+    rm -f q2-fw.dat
+    sync
+
+    echo "===== Updating firmware Version" 
+    if [ -f "/mnt/usb/fw.ver" ]; then 
+    	if [ -f "/mnt/app/System.ver" ]; then
+    		update_fwver
+    	else
+    		echo "Can't find System.ver(when Recovery -> OK)" 
+			rm -f /mnt/usb/fw.ver 
+    		rm -f /mnt/usb/fw.day 
+    		sync 
+    	fi
+    fi
+	INSTALL_VER_DATE=`date`
+	
+
+	if [ -f "_CMD_gangformat" ]; then
+		echo "===== Low-level Clean-up for /mnt/usb" 
+    	cd /mnt
+    	killall -9 install-scr.sh
+    	killall -9 usleep
+    	killall -9 splash_poweron
+    	fuser -m /mnt/usb
+
+    	umount /mnt/usb
+		echo "0" > /proc/ftl/format_blkmap
+		echo "Now re-formatting /mnt/usb ..."
+		fformat -f32 -c 32 /dev/ufda2 || \
+			fformat -f16 -c 32 /dev/ufda2 || err_msg "Can't format /dev/ufda2" 
+    	mount /mnt/usb
+	fi
+	INSTALL_FORMAT_DATE=`date`
+
+	echo "=============== Firmware Installation ================" 
+	echo "Result : Successful"
+	echo "INSTALL_START_DATE      : $INSTALL_START_DATE"
+	echo "INSTALL_DECRYPT_DATE    : $INSTALL_DECRYPT_DATE"
+	echo "INSTALL_DECOMPRESS_DATE : $INSTALL_DECOMPRESS_DATE"
+	echo "INSTALL_APPFS_DATE      : $INSTALL_APPFS_DATE"
+	echo "INSTALL_ETC_DATE        : $INSTALL_ETC_DATE"
+	echo "INSTALL_KERNEL_DATE     : $INSTALL_KERNEL_DATE"
+	echo "INSTALL_ROOTFS_DATE     : $INSTALL_ROOTFS_DATE"
+	echo "INSTALL_VER_DATE        : $INSTALL_VER_DATE"
+	echo "INSTALL_FORMAT_DATE     : $INSTALL_FORMAT_DATE"
+    echo "======================================================" 
+    
+    echo ">>> Reset the system"
+    /bin/reboot
+    echo "reboot is not working.. force power off" 
+    echo "opm_level 0" > /proc/pm # should not reach here
+}
+
+cleanup_ufda2()
+{
+    echo "===== Low-level Clean-up for /mnt/usb"
+    umount /mnt/usb
+    echo "0" > /proc/ftl/format_blkmap
+    echo "Now re-formatting /mnt/usb ..."
+    fformat -f32 -c 32 /dev/ufda2 || \
+        fformat -f16 -c 32 /dev/ufda2 || err_msg "Can't format /dev/ufda2" 
+    echo "OK."
+    mount /mnt/usb
+}
+
+create_folders()
+{
+    echo "===== Create folders" 
+    mkdir -p /mnt/app/Data
+    mkdir -p /mnt/app/Games
+    SSMEDIAROOT=/mnt/usb
+    mkdir -p $SSMEDIAROOT/Music
+    mkdir -p $SSMEDIAROOT/Playlists
+    mkdir -p $SSMEDIAROOT/Datacasts
+    mkdir -p $SSMEDIAROOT/Pictures
+    mkdir -p $SSMEDIAROOT/Texts
+    mkdir -p $SSMEDIAROOT/Video
+    mkdir -p $SSMEDIAROOT/System
+    mkdir -p $SSMEDIAROOT/Games
+    mkdir -p $SSMEDIAROOT/Games/prg
+    mkdir -p "$SSMEDIAROOT/My Pack"
+	mkdir -p "$SSMEDIAROOT/My Pack/myDNSe" 
+	mkdir -p "$SSMEDIAROOT/My Pack/UCI" 
+	mkdir -p "$SSMEDIAROOT/Recorded Files"
+    mkdir -p "$SSMEDIAROOT/Recorded Files/Voice"
+#    COUNTRYCODE="`awk '{ print $3 }' /proc/digctl/swversion`"
+#    if [ "$COUNTRYCODE" != "TR" ] ; then
+        mkdir -p "$SSMEDIAROOT/Recorded Files/FM Radio"
+#    fi
+
+    if [ ! -e $SSMEDIAROOT/System/System.ver ] ; then
+        mkdir -p $SSMEDIAROOT/System
+        #cp /mnt/app/System.ver $SSMEDIAROOT/System/
+        if [ -f /mnt/app/System.ver ] ; then
+        	head -4 /mnt/app/System.ver > $SSMEDIAROOT/System/System.ver
+        	echo "                                                                                " >> /mnt/usb/System/System.ver
+        	chmod 01555 $SSMEDIAROOT/System/System.ver
+        fi
+        chmod 01555 $SSMEDIAROOT/System/
+    fi
+
+   	count=1
+	while true; do 
+		if [ "$count" -gt 3 ]; then   # exit condition
+				sync
+				break
+		else
+			if [ ! -f "$SSMEDIAROOT/My Pack/myDNSe/User$count.ucq" ] ; then
+				#echo "not exist User$count.ucq..Copying..."
+				if [ -f "/mnt/app/Data/ucq/User$count.ucq" ] ; then
+					cp -f /mnt/app/Data/ucq/User$count.ucq "$SSMEDIAROOT/My Pack/myDNSe/"
+				fi
+			fi
+			count=`expr $count + 1`  # increase counter
+		fi
+	done
+
+	#cp -f /mnt/app/Data/ucq/User*.ucq "$SSMEDIAROOT/My Pack/myDNSe/"	
+	sync
+}
+
+#BOOT_START_DATE=`date`
+
+mount -t proc none /proc
+mount -t tmpfs none /mnt/tmp
+mount -n none /sys -t sysfs             # SYSFS on /sys
+#mount -t gadgetfs null /dev/gadget
+
+#BOOT_MOUNTETC_DATE=`date`
+#/bin/splash_poweron /share/Updating_bg.bmp 0 94
+# display booting splash image
+#dd if=/dev/ufdrawd of=/mnt/tmp/version bs=1 count=11
+#sync
+#bootsplash=`cat /mnt/tmp/version | awk '{ print $3 }'`
+#if [ "$bootsplash" = "KR" ] ; then
+#    /bin/splash_poweron /share/000000_power_on_00085.bmp 0 94
+#else
+#    /bin/splash_poweron /share/power_on_2.bmp 0 150
+#fi
+#rm -f /mnt/tmp/version
+
+# loading necessary modules  
+ 
+echo "Loading FS modules" 
+#if grep "SLC" /proc/lld/type; then
+#    echo "ERROR: SLC Unsupported...."
+#    exit 2;
+#elif grep "MLC" /proc/lld/type; then
+#    if grep "8k" /proc/lld/type; then
+#        insmod /bin/rfs-mlc-8k.ko > /dev/null
+#    elif grep "4k" /proc/lld/type; then
+#        insmod /bin/rfs-mlc-4k.ko > /dev/null
+#        insmod /lib/modules/2.6.24.3/kernel/fs/rfs/rfs.ko > /dev/null
+        insmod /lib/modules/2.6.24.3/kernel/fs/rfs/rfs.ko > /dev/null
+#    else
+#        insmod /bin/rfs-mlc-2k.ko > /dev/null
+#    fi  
+#else
+#    echo "ERROR: no nand info. kernel is not yet installed" 
+#    exit 2
+#fi
+
+#BOOT_LOADRFS_DATE=`date` 
+
+#echo "Loading USB modules" 
+#insmod -q stmp36xx_lib > /dev/null
+#insmod -q STMP36xx_udc > /dev/null 
+
+mount /mnt/app \
+    && echo "mount /dev/ufda1 is successful" \
+    || handle_noformat_ufda
+ 
+#BOOT_MOUNTRFS1_DATE=`date` 
+ 
+mount /mnt/usb \
+    && echo "mount /dev/ufda2 is successful" \
+    || handle_noformat_ufda
+ 
+#BOOT_MOUNTRFS2_DATE=`date` 
+
+echo "=============== Now begin ==============="
+
+[ -f "/mnt/usb/q2-fw.dat" ] && install_newfw
+#[ -f "/mnt/usb/_CMD_gangformat" ] && cleanup_ufda2
+create_folders
+
+# If no System.ver, System.ver file is needed to copy /mnt/app and /dev/ufdrawd
+if [ ! -f "/mnt/app/System.ver" ]; then 
+	echo "/mnt/app/System.ver file not exist!!"
+    dd if=/dev/ufdrawd of=/mnt/tmp/tmpversion bs=12 count=1
+    sync
+    VERCODE="`awk '{ print $1 }' /mnt/tmp/tmpversion`"
+    if [ "$VERCODE" = "VER" ] ; then
+        err_log "Use ufdrawd version of System.ver file"
+        dd if=/dev/ufdrawd of=/mnt/app/System.ver bs=150 count=1
+        sync
+    else
+        err_log "Use cramfs version of System.ver file" 
+        mount -t cramfs /dev/ufdrawc /appfs || handle_nofw
+        cp /appfs/System.ver /mnt/app
+        dd if=/mnt/app/System.ver of=/dev/ufdrawd bs=512 count=1
+        umount /appfs
+        sync
+    fi
+    rm -f /mnt/tmp/tmpversion
+    sync
+fi 
+
+if [ ! -d "/mnt/app/Data" -o ! -d "/mnt/app/Data/drm" ]; then 
+    err_log "/mnt/app/Data folder is corrupted"
+    umount /mnt/app
+    handle_corruption_ufda
+    mount /mnt/app
+    sync 
+fi 
+
+# read S/W version information
+cat /mnt/app/System.ver > /proc/digctl/swversion
+
+
+#BOOT_VERWORK_DATE=`date` 
+
+# CRAMFS appfs (for production)
+mount -t cramfs /dev/ufdrawc /appfs \
+    || handle_nofw
+
+#BOOT_MOUNTCRAMFS_DATE=`date` 
+
+echo "Scan log block start!!" 
+scan_logblock.sh &
+
+/bin/splash_poweron /share/000000_power_on_00085.bmp 6 0
+#/bin/splash_poweron /pixmaps/Q2/Power/000000_power_on_00085.bmp 0 0
+#/bin/boot_ani.sh &
+
+# repeated power off handling 
+#if [ -f "/mnt/usb/_CMD_reboot" ]; then 
+#    rebootCnt=`cat /mnt/usb/_CMD_reboot`
+#    if [ "$rebootCnt" -gt 0 ]; then 
+#	echo "power off the device after 10 second" 
+#	rebootCnt=`expr $rebootCnt - 1`
+#	echo "remaining rebootCnt = $rebootCnt"
+#	echo "$rebootCnt" > /mnt/usb/_CMD_reboot
+#	sleep 10 
+#	echo "opm_level 0" > /proc/pm 
+#    fi
+#fi
+
+#killall -9 boot_ani.sh
+
+/bin/post.sh
+/bin/rtc.sh &
+#BOOT_BEFORESTART_DATE=`date` 
+
+#echo "=============== SYSTEM BOOT TIME ================" 
+#echo "BOOT_START_DATE       : $BOOT_START_DATE"
+#echo "BOOT_MOUNTETC_DATE    : $BOOT_MOUNTETC_DATE"
+#echo "BOOT_LOADRFS_DATE     : $BOOT_LOADRFS_DATE"
+#echo "BOOT_MOUNTRFS1_DATE   : $BOOT_MOUNTRFS1_DATE"
+#echo "BOOT_MOUNTRFS2_DATE   : $BOOT_MOUNTRFS2_DATE"
+#echo "BOOT_VERWORK_DATE     : $BOOT_VERWORK_DATE"
+#echo "BOOT_MOUNTCRAMFS_DATE : $BOOT_MOUNTCRAMFS_DATE"
+#echo "BOOT_BEFORESTART_DATE : $BOOT_BEFORESTART_DATE"
+echo "=============== SYSTEM BOOT END  ================" 
+
+echo " start application "
+if [ -f "/mnt/app/start.sh" ]; then
+    echo "[DEVEL] /mnt/app contain start.sh"
+    /mnt/app/start.sh
+elif [ -f "/appfs/start.sh" ]; then
+    echo "[PRODUCTION] /appfs contain start.sh"
+    source /appfs/start.sh
+else
+    echo "[TEST] run diagnosis"
+    /bin/diagnosis&
+fi 
+

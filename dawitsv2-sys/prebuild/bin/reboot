@@ -1,0 +1,10 @@
+#!/bin/sh
+#echo "opm_level 1" > /proc/pm 
+echo "[FS]reboot command"
+#killall -9 AppMain
+
+#echo lcdif off > /proc/lfbctrl
+
+#echo "opm_level 0" > /proc/pm
+reboot-now
+

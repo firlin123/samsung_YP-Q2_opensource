@@ -1,0 +1,6 @@
+::sysinit:/etc/init.d/rcS
+ttyAM0::respawn:/bin/sh --login
+::ctrlaltdel:/sbin/reboot
+::shutdown:/sbin/swapoff -a
+::shutdown:/bin/umount -a -r
+::restart:/sbin/init

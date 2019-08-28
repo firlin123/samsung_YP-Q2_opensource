@@ -1,0 +1,6 @@
+#!/bin/sh
+if [ "$1" == "2" ]; then
+	echo lcdif off > /proc/lfbctrl
+	backing off
+fi
+echo opm_level $1 > /proc/pm

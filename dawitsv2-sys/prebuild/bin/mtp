@@ -1,0 +1,14 @@
+#!/bin/sh
+control=/mnt/tmp/mtp_ctrl
+if [ "$1" == "on" ]; then
+	opm_level 1
+	echo mode mtp>$control
+	echo connect>$control
+	exit 0
+elif [ "$1" == "off" ]; then
+	echo disconnect>$control
+	exit 0
+else
+	echo "Please specify on or off"
+	exit 1
+fi

@@ -1,0 +1,22 @@
+#!/bin/sh
+msc off
+echo wait 3sec until g_file_storage is removed
+sleep 3
+cd /mnt/usb
+
+echo "=> sync"
+sync
+if [ -f nandboot.sb ]; then
+	echo "=> updating bootloader"
+	dd if=nandboot.sb of=/dev/misc/nandsb bs=4k
+fi
+if [ -f zImage ]; then
+	echo "=> updating zImage"
+	dd if=zImage of=/dev/ufdrawa bs=4k
+fi
+if [ -f rootfs.sqfs ]; then
+	echo "=> updating rootfs"
+	dd if=rootfs.sqfs of=/dev/ufdrawb bs=4k
+fi
+echo "=> sync"
+sync

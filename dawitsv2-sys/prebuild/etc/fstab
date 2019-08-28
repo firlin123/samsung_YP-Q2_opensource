@@ -1,0 +1,2 @@
+/dev/ufda1      /mnt/app        rfs     defaults        0 0     
+/dev/ufda2      /mnt/usb        rfs     defaults        0 0     

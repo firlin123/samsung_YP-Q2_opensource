@@ -1,0 +1,32 @@
+#!/bin/sh
+export SSROOT=/mnt/app
+export PATH=$PATH:${SSROOT}/bin
+export LD_LIBRARY_PATH=${SSROOT}/lib
+
+AudioPlayer=${SSROOT}/bin/MediaSrv
+VideoPlayer=${SSROOT}/bin/mplayer
+#VideoPlayer=${SSROOT}/bin/mpwrap
+
+case "$1" in
+	*.mp3 | *.MP3 )
+		echo lcdif off > /proc/lfbctrl
+		echo opm_level 3 > /proc/pm
+		[ -x $AudioPlayer ] && $AudioPlayer "$1" || echo $AudioPlayer not found ;;
+	*.wma | *.WMA )
+		echo lcdif off > /proc/lfbctrl
+		echo opm_level 5 > /proc/pm
+		[ -x $AudioPlayer ] && $AudioPlayer "$1" || echo $AudioPlayer not found ;;
+	*.ogg | *.OGG )
+		echo lcdif off > /proc/lfbctrl
+		echo opm_level 7 > /proc/pm
+		[ -x $AudioPlayer ] && $AudioPlayer "$1" || echo $AudioPlayer not found ;;
+	*.avi | *.AVI )
+		echo lcdif on > /proc/lfbctrl
+		echo opm_level 12 > /proc/pm
+		[ -x $VideoPlayer ] && $VideoPlayer "$1" || echo $VideoPlayer not found ;;	
+	*.wmv | *.WMV )
+		echo lcdif on > /proc/lfbctrl
+		echo opm_level 14 > /proc/pm
+		[ -x $VideoPlayer ] && $VideoPlayer "$1" || echo $VideoPlayer not found ;;	
+	*) echo "Usage: play name.[mp3|ogg|wma|avi|wmv]" ;;
+esac

@@ -1,0 +1,40 @@
+#!/bin/sh
+
+t=`ps | grep USBSrv | grep -v grep | wc -l`
+
+if [ $t == 0 ]; then
+	echo USBSrv NOT running
+	if [ "$1" = "on" ]; then
+		echo MSC On
+		opm_level 1
+		umount /mnt/usb
+		#modprobe g_file_storage file=/mnt/tmp/backing
+		modprobe g_file_storage file=/dev/ufda2
+	elif [ "$1" = "off" ]; then
+		echo MSC off
+		rmmod g_file_storage
+		#mount /mnt/tmp/backing /mnt/usb -o loop
+		#mount /dev/ufda2 /mnt/usb -t rfs
+		mount /mnt/usb 
+	else
+		echo "Please specify on or off"
+		exit 1
+	fi
+else
+	echo USBSrv running
+	control=/mnt/tmp/mtp_ctrl
+	if [ "$1" = "on" ]; then
+		echo MSC On
+		opm_level 1
+		echo mode msc>$control
+		echo connect>$control
+		exit 0
+	elif [ "$1" = "off" ]; then
+		echo MSC off
+		echo disconnect>$control
+		exit 0
+	else
+		echo "Please specify on or off"
+		exit 1
+	fi
+fi
