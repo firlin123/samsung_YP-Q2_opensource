@@ -25,8 +25,6 @@ $ sudo -i
 ```
 * **set up toolchain:**
 ```
-# mkdir /opt/codesourcery
-# ln -sf $PWD/toolchain/arm-none-linux-gnueabi /opt/codesourcery/arm-none-linux-gnueabi
 # export PATH=$PWD/toolchain/bin:$PATH
 ```
 * **build:**

@@ -34,9 +34,11 @@ export CROSS_COMPILE
 # !!hack!! to get toolchain GLIBC location
 ifeq ($(CROSS_COMPILE),arm-none-linux-gnueabi-)
 	ARM_ROOT_LIB_DIR  = $(realpath $(dir $(shell ${CROSS_COMPILE}gcc -print-file-name=ld-2.3.6.so)))
+	GCC_ROOT_LIB_DIR  = $(realpath $(dir $(shell ${CROSS_COMPILE}gcc -print-file-name=libstdc++.so)))
 	#ARM_ROOT_LIB_DIR  = $(realpath $(dir $(shell ${CROSS_COMPILE}gcc -print-file-name=ld-2.3.6.so))../../lib/armv4t)
 else
 	ARM_ROOT_LIB_DIR  = $(realpath $(dir $(shell ${CROSS_COMPILE}gcc -print-file-name=ld-2.3.6.so))../../armv5-root/lib)
+	GCC_ROOT_LIB_DIR  = $(realpath $(dir $(shell ${CROSS_COMPILE}gcc -print-file-name=libstdc++.so))../../armv5-root/lib)
 endif
 
 
@@ -136,7 +138,7 @@ rootfs-under-fakeroot:
 	@echo Copying Root libraries
 	@mkdir -p $(ROOTFS_DIR)/lib
 	@cp -a $(ARM_ROOT_LIB_DIR)/*so* $(ROOTFS_DIR)/lib
-	@cp -a /opt/codesourcery/arm-none-linux-gnueabi/lib/*so* $(ROOTFS_DIR)/lib #dhsong
+	@cp -a $(GCC_ROOT_LIB_DIR)/*so* $(ROOTFS_DIR)/lib #dhsong
 	
 	@(if grep CONFIG_MODULES=y $(OUTPUT_DIR)/.config; then \
 		echo Installing modules into rootfs tree; \
