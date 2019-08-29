@@ -1,2 +1,2 @@
 #!/bin/bash
-uname -a > /mnt/usb/kenel.txt
+/proc/version /mnt/usb/kernel.txt
