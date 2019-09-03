@@ -1,0 +1,4 @@
+/lib/modules/2.6.24.3/kernel/fs/rfs/rfs.ko:
+/lib/modules/2.6.24.3/kernel/drivers/usb/gadget/gadgetfs.ko:
+/lib/modules/2.6.24.3/kernel/drivers/usb/gadget/g_file_storage.ko:
+

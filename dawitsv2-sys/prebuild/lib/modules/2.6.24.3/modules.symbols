@@ -1,0 +1,14 @@
+# Aliases for symbols, used by symbol_request().
+alias symbol:bdev_open rfs
+alias symbol:bdev_sync rfs
+alias symbol:bdev_read rfs
+alias symbol:bdev_write rfs
+alias symbol:bdev_ioctl rfs
+alias symbol:push_to_lru rfs
+alias symbol:push_to_mru rfs
+alias symbol:rfs_vol_fops rfs
+alias symbol:listout rfs
+alias symbol:move_to_lru rfs
+alias symbol:move_to_mru rfs
+alias symbol:bdev_close rfs
+

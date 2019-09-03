@@ -132,7 +132,6 @@ rootfs-under-fakeroot:
 	@echo Unpacking Busybox into rootfs tree
 	@(cd $(ROOTFS_DIR) && cpio $(CPIO_IN_FLAGS) < $(BUSYBOX_CPIO))
 	@ln -s sbin/init $(ROOTFS_DIR)/init
-	@cp -r $(PREBUILDDIR)/* $(ROOTFS_DIR)
 	
 # copy libraries (root)
 	@echo Copying Root libraries
@@ -154,6 +153,9 @@ rootfs-under-fakeroot:
 		$(ROOTFS_DIR)/lib/libpcprofile* $(ROOTFS_DIR)/lib/libresolv*
 	@${CROSS_COMPILE}strip -s $(ROOTFS_DIR)/lib/*so*
 	@echo Done.
+
+	@echo "Copying prebuild files"
+	@cp -r $(PREBUILDDIR)/* $(ROOTFS_DIR)
 
 #   For gadget storage test only - 1MB FAT image
 #	@echo Copying backing storage for USB file storage

@@ -39,7 +39,7 @@ $ sudo -i
 # cd ~/src/repack_tool/
 # unzip Q2V1.23.zip
 # sh unpack.sh
-# cp ../dawitsv2-sys/build/zImage q2update_unpacked/
+# cp ../dawitsv2-sys/build/zImage ../dawitsv2-sys/build/rootfs.sqfs q2update_unpacked/
 # cp scripts/* q2update_unpacked/appfs/bin/
 # sh repack.sh
 # nautilus .
