@@ -1,2 +1,2 @@
 #!/bin/bash
-/proc/version /mnt/usb/kernel.txt
+cp /proc/version /mnt/usb/kernel.txt
