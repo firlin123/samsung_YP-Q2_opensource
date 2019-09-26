@@ -30,9 +30,12 @@ ifneq ($(EXPORTS_LIST),)
   # on the host machine.  This isn't necessarily the same as the compiler
   # which can be a cross-compiler for a different architecture, for example.
   #
-  ifeq ($(CCexe),)
-    CCexe := $(CC)
-  endif
+
+  CCexe := gcc
+
+  #ifeq ($(CCexe),)
+  #  CCexe := $(CC)
+  #endif
 
   # TE acts like T, but for executables instead of object files.
   ifeq ($(TE),)
