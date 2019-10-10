@@ -23,7 +23,8 @@ git clone https://github.com/firlin123/arm-none-linux-gnueabi.git toolchain
 * **set up toolchain:**
 
 ```
-export PATH=~/toolchain/bin:$PATH
+echo 'if [ -d "$HOME/toolchain/bin" ] ; then PATH="$HOME/toolchain/bin:$PATH"; fi' >> ~/.profile
+export PATH=$PWD/toolchain/bin:$PATH
 ```
 * **build kernel and rootfs:**
 
@@ -37,18 +38,14 @@ make
 cd ~/src/dawitsv2-mid
 make
 ```
-* **download original firmware (Q2V1.23.zip)**
 * **repack firmware:**
 
 ```
-cp ~/Downloads/Q2V1.23.zip ~/src/repack_tool/
 cd ~/src/repack_tool/
-unzip Q2V1.23.zip
-sh unpack.sh
+make
 cp ../dawitsv2-sys/build/zImage ../dawitsv2-sys/build/rootfs.sqfs q2update_unpacked/
-cp scripts/* q2update_unpacked/appfs/bin/
 sudo cp ../dawitsv2-mid/target/appfs/lib/* q2update_unpacked/appfs/lib/
-sh repack.sh
+make repack
 ```
 * **install:**
 
