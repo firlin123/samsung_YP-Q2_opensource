@@ -11,13 +11,13 @@
 ```
 sudo apt-get update
 sudo apt-get install -y git libcurl4-openssl-dev fakeroot gcc cramfsprogs automake1.4
-cd ~ && wget https://moonbutt.science/firlin4pda/samsung_YP-Q2_opensource/raw/master/git/git_1.9.1-1ubuntu0.10_i386.deb
+cd ~ && wget https://github.com/firlin123/samsung_YP-Q2_opensource/raw/master/git/git_1.9.1-1ubuntu0.10_i386.deb
 sudo dpkg -i git_1.9.1-1ubuntu0.10_i386.deb
 ```
 * **clone repositories:**
 
 ```
-git clone https://moonbutt.science/firlin4pda/samsung_YP-Q2_opensource.git src
+git clone https://github.com/firlin123/samsung_YP-Q2_opensource.git src
 git clone https://github.com/firlin123/arm-none-linux-gnueabi.git toolchain
 ```
 * **set up toolchain:**
